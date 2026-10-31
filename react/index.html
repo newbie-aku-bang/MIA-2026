@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AksiWarga - PublicPulse 2026</title>
+
+    <!-- Tailwind CSS CDN + konfigurasi font & warna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Schibsted Grotesk"', 'system-ui', 'sans-serif'] },
+                    colors: { paper: 'var(--paper)', ink: 'var(--ink)', muted: 'var(--muted)' }
+                }
+            }
+        };
+    </script>
+
+    <!-- Font: Schibsted Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-paper font-sans text-ink antialiased selection:bg-ink selection:text-white">
+    <div id="root"></div>
+
+    <!-- React 18 (UMD) -->
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
