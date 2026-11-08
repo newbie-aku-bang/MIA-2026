@@ -12,17 +12,17 @@ const ISLAND_LINKS = [
 /* Isi dropdown: teks contoh, ganti sesuai kebutuhan */
 const MENU_LINKS = [
     ['Beranda', '#beranda'],
-    ['Peta Laporan', '#'],
+    ['Peta Laporan', '#peta'],
     ['Kabar Progres', '#'],
     ['Statistik Kinerja', '#statistik'],
 ];
 
 /* corner = sudut kotak yang menghadap titik tengah blok */
 const STATS = [
-    { label: 'Total Laporan Masuk', value: '1.405', strong: '+12 hari ini', note: ' dari seluruh wilayah', corner: 'br', target: 'laporan-masuk' },
-    { label: 'Berhasil Diselesaikan', value: '1.405', strong: '89%', note: ' tingkat penyelesaian total', corner: 'bl', target: 'laporan-selesai', valueColor: '#15803d' },
-    { label: 'Rata-rata Respon', value: '1.405', note: 'Waktu tanggap awal oleh instansi', corner: 'tr', target: 'waktu-respon' },
-    { label: 'Belum Ditanggapi', value: '1.405', strong: 'Melewati batas SLA', note: ' (transparan)', corner: 'tl', target: 'belum-ditanggapi', valueColor: '#dc2626' },
+    { label: 'Total Laporan Masuk', value: '1.405', strong: '+12 hari ini', note: ' dari seluruh wilayah', corner: 'br' },
+    { label: 'Berhasil Diselesaikan', value: '1.405', strong: '89%', note: ' tingkat penyelesaian total', corner: 'bl', valueColor: '#15803d' },
+    { label: 'Rata-rata Respon', value: '1.405', note: 'Waktu tanggap awal oleh instansi', corner: 'tr' },
+    { label: 'Belum Ditanggapi', value: '1.405', strong: 'Melewati batas SLA', note: ' (transparan)', corner: 'tl', valueColor: '#dc2626' },
 ];
 
 /* ===== HOOK: apakah header sedang berada di atas section terang? ===== */
@@ -118,14 +118,14 @@ function Hero() {
             h('p', { className: 'mx-auto mt-8 max-w-xl text-base leading-relaxed text-white/80 md:text-lg' },
                 'Mulai dari tumpukan sampah hingga antrean bansos—kini warga bisa mengawasi kinerja pelayanan publik tanpa batasan birokrasi.'),
             h('div', { className: 'mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row' },
-                h('a', { href: '#peta', className: btn + ' bg-white text-ink hover:bg-white/85' }, 'Lihat Peta Transparansi'),
+                h('a', { href: '#peta', className: btn + ' bg-white text-ink hover:bg-white/85' }, 'Lihat Peta'),
                 h('a', { href: '#laporan', className: btn + ' border border-white/50 text-white hover:bg-white/10' }, 'Laporkan Masalah'))));
 }
 
 /* ===== KOTAK DATA: outline dihitung dari ukuran kotak ===== */
 const GAP = 7, EDGE = 1; /* GAP: garis ke titik tengah, EDGE: garis ke sisi luar */
 
-function Stat({ label, value, strong, note, corner, target, valueColor }) {
+function Stat({ label, value, strong, note, corner, valueColor }) {
     const cell = useRef(null);
     const path = useRef(null);
 
@@ -144,7 +144,6 @@ function Stat({ label, value, strong, note, corner, target, valueColor }) {
 
     return h('button', {
         ref: cell, type: 'button', 'data-corner': corner, className: 'stat flex flex-col items-center justify-center p-5 text-center sm:p-8 md:p-12',
-        onClick: () => { window.location.hash = target; },
     },
         h('svg', { 'aria-hidden': 'true' }, h('path', { ref: path })),
         h('p', { className: 'text-xs font-medium text-muted sm:text-sm' }, label),
@@ -154,12 +153,169 @@ function Stat({ label, value, strong, note, corner, target, valueColor }) {
 }
 
 function Stats() {
-    return h('section', { id: 'statistik', 'data-light': '', className: 'flex min-h-screen items-center justify-center bg-paper px-6 py-20' },
+    return h('section', { id: 'laporan', 'data-light': '', className: 'flex min-h-screen items-center justify-center bg-paper px-6 py-20' },
         h('div', { className: 'mx-auto w-full max-w-4xl' },
             h('div', { className: 'stats-heading mb-10 text-left' },
                 h('h2', { className: 'text-4xl font-semibold tracking-[-0.035em] md:text-5xl' }, 'Rekam Jejak Pengaduan'),
                 h('p', { className: 'mt-4 max-w-2xl text-muted' }, 'Sejauh mana suara warga didengar dan ditindaklanjuti oleh pihak berwenang.')),
-            h('div', { className: 'grid grid-cols-2' }, STATS.map((s) => h(Stat, { key: s.label, ...s })))));
+            h('div', { className: 'grid grid-cols-2' }, STATS.map((s) => h(Stat, { key: s.label, ...s }))), h(Actions)));
+}
+
+/* ===== IKON (inline SVG, ikut warna teks) ===== */
+const pth = (d) => h('path', { d });
+const ICONS = {
+    plus: [pth('M12 5v14M5 12h14')],
+    clock: [h('circle', { cx: 12, cy: 12, r: 9 }), pth('M12 7v5l3 2')],
+    link: [pth('M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5')],
+    pin: [pth('M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z'), h('circle', { cx: 12, cy: 10, r: 2.5 })],
+    down: [pth('M7 7l10 10M17 8v9H8')],
+};
+function Icon({ name }) {
+    return h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true' }, ...ICONS[name]);
+}
+const Pie = () => h('svg', { viewBox: '0 0 24 24', fill: 'currentColor', 'aria-hidden': 'true' }, pth('M12 12l9.2 3.9A10 10 0 1 1 8 2.8z'), pth('M13.5 10.5V2.1A10 10 0 0 1 22 10.5z'));
+
+function Heading({ title, sub }) {
+    return h('div', { className: 'mb-10 text-left' },
+        h('h2', { className: 'text-4xl font-semibold tracking-[-0.035em] md:text-5xl' }, title),
+        h('p', { className: 'mt-4 max-w-2xl text-muted md:text-lg' }, sub));
+}
+
+/* ===== REKAM JEJAK: tombol Pengaduan Baru & Status Laporan ===== */
+const ACTIONS = [
+    { icon: 'plus', title: 'Pengaduan Baru', desc: 'Laporkan masalah atau keluhan Anda untuk ditindaklanjuti.' },
+    { icon: 'clock', title: 'Status Laporan', desc: 'Pantau perkembangan laporan Anda dari masuk hingga selesai.' },
+];
+function Actions() {
+    return h('div', { className: 'actions bleed' }, ACTIONS.map((a) => h('button', { key: a.title, type: 'button', className: 'action' },
+        h('span', { className: 'action-head' }, h('span', { className: 'action-ico' }, h(Icon, { name: a.icon })), h('strong', null, a.title)),
+        h('span', { className: 'action-desc' }, a.desc))));
+}
+
+/* ===== PETA: tempat peta saja (peta dipasang di #peta-indonesia nanti) ===== */
+const LEGEND = [['var(--map)', '>50% Laporan diselesaikan'], ['#f59e0b', '>50% Laporan diproses'], ['#ef4444', '>50% Laporan belum ditanggapi']];
+function Peta() {
+    return h('section', { id: 'peta', 'data-light': '', className: 'section' },
+        h('div', { className: 'wide' },
+            h(Heading, { title: 'Lihat Lebih Luas', sub: 'Pantau daerahmu disini.' }),
+            h('div', { className: 'map-bar' },
+                h('p', { className: 'map-hint' }, h('i'), 'Arahkan kursor ke provinsi untuk melihat ringkasan pengaduan.'),
+                h('button', { type: 'button', className: 'chip' }, h(Icon, { name: 'link' }), 'Lihat Detail')),
+            h('div', { id: 'peta-indonesia', className: 'map-shape', role: 'img', 'aria-label': 'Area peta Indonesia' }, h('span', null, 'Area peta Indonesia')),
+            h('div', { className: 'map-foot' },
+                h('button', { type: 'button', className: 'card here' }, h('span', { className: 'here-ico' }, h(Icon, { name: 'pin' })), 'Lihat daerah saya'),
+                h('ul', { className: 'card legend' }, LEGEND.map(([c, t]) => h('li', { key: t }, h('i', { style: { background: c } }), t))))));
+}
+
+/* ===== STATISTIK KINERJA: data (ganti sesuai data asli) ===== */
+const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+const SERIES = [['selesai', '#16803c', 'Laporan diselesaikan'], ['masuk', '#3158e8', 'Laporan masuk']];
+const TREND = { /* tambah tahun baru cukup dengan menambah baris di sini */
+    2026: { masuk: [40, 20, 50, 11, 44, 24, 69, 10, 50, 34], selesai: [18, 28, 21, 46, 35, 61, 54, 58, 68, 92] },
+    2025: { masuk: [22, 30, 26, 38, 41, 35, 48, 52, 44, 50, 46, 58], selesai: [15, 24, 22, 31, 35, 30, 42, 47, 40, 46, 43, 54] },
+    2024: { masuk: [12, 18, 15, 24, 28, 22, 30, 33, 29, 35, 31, 38], selesai: [8, 13, 12, 19, 22, 18, 25, 28, 25, 30, 27, 33] },
+};
+const YEARS = Object.keys(TREND).map(Number).reverse();
+const RATIO = [['#16803c', 45, 'Selesai'], ['#ca8a04', 35, 'Proses'], ['#dc2626', 20, 'Overdue']];
+const RANKING = [
+    ['Dinas Bina Marga', 'Infrastruktur', 440, '94%', '1.2 Hari'],
+    ['Dinas Lingkungan Hidup', 'Kebersihan', 386, '88%', '1.4 Hari'],
+    ['Dinas Sosial', 'Bantuan Sosial (Bansos)', 350, '82%', '2.1 Hari'],
+    ['Dinas Perhubungan', 'Keselamatan Umum', 280, '78%', '2.4 Hari'],
+];
+const CATEGORIES = [['Infrastruktur & Jalan', 45], ['Lingkungan & Sampah', 25], ['Bantuan Sosial (Bansos)', 16], ['Fasilitas Umum & Lainnya', 12]];
+
+/* Garis melengkung halus (Catmull-Rom -> Bezier) */
+const smooth = (pts) => pts.map(([px, py], i) => {
+    if (!i) return `M${px} ${py}`;
+    const a = pts[i - 2] || pts[i - 1], b = pts[i - 1], c = pts[i + 1] || pts[i];
+    return `C${b[0] + (px - a[0]) / 6} ${b[1] + (py - a[1]) / 6} ${px - (c[0] - b[0]) / 6} ${py - (c[1] - b[1]) / 6} ${px} ${py}`;
+}).join('');
+
+function TrendChart({ year }) {
+    const d = TREND[year], n = d.masuk.length;
+    const W = 1000, H = 340, L = 50, R = 24, T = 30, B = 56;
+    const top = Math.max(100, Math.ceil(Math.max(...d.masuk, ...d.selesai) / 25) * 25);
+    const x = (i) => L + (i * (W - L - R)) / (n - 1);
+    const y = (v) => T + (H - T - B) * (1 - v / top);
+    return h('svg', { className: 'chart', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': `Grafik laporan masuk dan diselesaikan per bulan, tahun ${year}` },
+        h('text', { x: 0, y: 12, className: 'ax' }, 'Jumlah Laporan'),
+        ...Array.from({ length: top / 25 + 1 }, (_, i) => i * 25).map((t) => h('g', { key: 'y' + t },
+            h('line', { x1: L, x2: W - R, y1: y(t), y2: y(t), className: 'grid' }),
+            h('text', { x: L - 12, y: y(t) + 4, textAnchor: 'end', className: 'tick' }, t))),
+        ...d.masuk.map((_, i) => h('text', { key: 'x' + i, x: x(i), y: H - B + 22, textAnchor: 'middle', className: 'tick' }, MONTHS[i])),
+        h('text', { x: (L + W - R) / 2, y: H - 6, textAnchor: 'middle', className: 'ax' }, `Tahun ${year}`),
+        ...SERIES.map(([k, c], s) => {
+            const other = d[SERIES[1 - s][0]];
+            const pts = d[k].map((v, i) => [x(i), y(v)]);
+            return h('g', { key: k },
+                h('path', { d: smooth(pts), fill: 'none', stroke: c, strokeWidth: 2 }),
+                ...pts.map(([px, py], i) => h('g', { key: i },
+                    h('circle', { cx: px, cy: py, r: 3.5, fill: c }),
+                    h('text', { x: px, y: d[k][i] >= other[i] ? py - 10 : py + 17, textAnchor: 'middle', className: 'val', style: { fill: c } }, d[k][i]))));
+        }));
+}
+
+function Trend() {
+    const [year, setYear] = useState(YEARS[0]);
+    const last = TREND[year].masuk.length - 1;
+    return h('div', { className: 'card chart-card' },
+        h('div', { className: 'chart-head' },
+            h('div', null,
+                h('h3', { className: 'card-title' }, `Tren Aktivitas Penanganan (${year})`),
+                h('p', { className: 'card-sub' }, `Data resmi — perbandingan laporan masuk dan laporan diselesaikan per bulan (${MONTHS[0]}–${MONTHS[last]} ${year}).`),
+                h('ul', { className: 'key' }, SERIES.map(([k, c, label]) => h('li', { key: k }, h('i', { style: { background: c } }), label)))),
+            h('label', { className: 'year' }, 'Tahun',
+                h('select', { value: year, 'aria-label': 'Pilih tahun', onChange: (e) => setYear(Number(e.target.value)) }, YEARS.map((v) => h('option', { key: v, value: v }, v))))),
+        h('div', { className: 'chart-scroll' }, h(TrendChart, { key: year, year })));
+}
+
+function Ranking() {
+    return h('div', { className: 'card rank' },
+        h('div', { className: 'rank-head' },
+            h('div', null, h('h3', { className: 'card-title' }, 'Peringkat Kerja Instansi'), h('p', { className: 'card-sub' }, 'Data resmi — peringkat instansi berdasarkan kinerja penanganan.')),
+            h('div', { className: 'rank-cols' }, ['Total Aduan', 'Penyelesaian', 'AVG respon'].map((c) => h('span', { key: c }, c)))),
+        h('ol', { className: 'rank-list' }, RANKING.map(([name, dept, ...v], i) => h('li', { key: name },
+            h('b', { className: 'rank-no' }, i + 1),
+            h('span', { className: 'rank-name' }, h('strong', null, name), h('small', null, dept)),
+            v.map((val) => h('span', { key: val }, val))))));
+}
+
+function Categories() {
+    return h('div', { className: 'card cats' },
+        h('h3', { className: 'card-title' }, 'Kategori Masalah'),
+        h('p', { className: 'card-sub' }, 'Tingkat penyelesaian per kategori.'),
+        h('ul', null, CATEGORIES.map(([name, v]) => h('li', { key: name },
+            h('div', null, h('span', null, name), h('b', null, v + '%')),
+            h('div', { className: 'bar' }, h('i', { style: { width: v + '%' } }))))));
+}
+
+function Kinerja() {
+    return h('section', { id: 'statistik', 'data-light': '', className: 'section' },
+        h('div', { className: 'wide' },
+            h(Heading, { title: 'Statistik Kinerja & Akuntabilitas', sub: 'Transparansi menyeluruh atas respons instansi dan tren penyelesaian aduan warga.' }),
+            h('div', { className: 'kpis' },
+                h('article', { className: 'card kpi' },
+                    h('header', null, h('h3', { className: 'kpi-label' }, 'Rasio Status Global'), h(Pie)),
+                    h('p', { className: 'kpi-value' }, '1.456', h('small', null, 'Total Aduan')),
+                    h('p', { className: 'kpi-note' }, 'Proporsi status penanganan laporan saat ini di seluruh wilayah.'),
+                    h('div', { className: 'kpi-foot' },
+                        h('div', { className: 'ratio' }, RATIO.map(([c, w]) => h('i', { key: c, style: { background: c, flex: w } }))),
+                        h('div', { className: 'ratio-key' }, RATIO.map(([c, w, l]) => h('span', { key: l, style: { color: c } }, `${l} (${w}%)`))))),
+                h('article', { className: 'card kpi' },
+                    h('header', null, h('h3', { className: 'kpi-label' }, 'Kepatuhan SLA Instansi')),
+                    h('p', { className: 'kpi-value' }, '91%'),
+                    h('p', { className: 'kpi-note' }, 'Sebagian besar instansi merespon aduan warga dalam batas waktu standar (3 hari kerja).'),
+                    h('div', { className: 'kpi-foot sla' },
+                        h('span', null, 'Tepat Waktu: ', h('strong', null, '1.257 Laporan')),
+                        h('span', { className: 'late' }, 'Terlambat: ', h('strong', null, '56 Laporan')))),
+                h('article', { className: 'card kpi' },
+                    h('header', null, h('h3', { className: 'kpi-label' }, 'Kecepatan Tanggap'), h(Icon, { name: 'clock' })),
+                    h('p', { className: 'kpi-value' }, '1.8', h('small', null, 'Hari')),
+                    h('p', { className: 'kpi-note' }, 'Waktu rata-rata yang dibutuhkan dinas terkait untuk melakukan verifikasi laporan.'),
+                    h('div', { className: 'kpi-foot' }, h('span', { className: 'pill' }, h(Icon, { name: 'down' }), '-0.4 hari dari bulan lalu')))),
+            h(Trend),
+            h('div', { className: 'rank-row' }, h(Ranking), h(Categories))));
 }
 
 /* ===== Halaman sementara supaya navigasi island punya tujuan ===== */
@@ -190,13 +346,9 @@ function App() {
         h('main', null,
             h(Hero),
             h(Stats),
-            h(Page, { id: 'laporan', title: 'Laporan' }),
-            h(Page, { id: 'peta', title: 'Peta' }),
-            h(Page, { id: 'faq', title: 'FAQ' }),
-            h(Page, { id: 'laporan-masuk', title: 'Total Laporan Masuk' }),
-            h(Page, { id: 'laporan-selesai', title: 'Berhasil Diselesaikan' }),
-            h(Page, { id: 'waktu-respon', title: 'Rata-rata Respon' }),
-            h(Page, { id: 'belum-ditanggapi', title: 'Belum Ditanggapi' })));
+            h(Peta),
+            h(Kinerja),
+            h(Page, { id: 'faq', title: 'FAQ' })));
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(h(App));

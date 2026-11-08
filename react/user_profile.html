@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya - TransparansiWarga (PublicPulse 2026)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        warm: {
+                            50: '#faf8f5',
+                            100: '#f3efe6',
+                            200: '#e5dccb',
+                            300: '#d4c2a7',
+                            400: '#bf9e7f',
+                            500: '#a7805b',
+                            600: '#8c6547',
+                            700: '#704f3a',
+                            800: '#3a2d24',
+                            900: '#231d19',
+                            950: '#161210',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-warm-950 text-warm-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-600 selection:text-warm-950">
+
+    <!-- TOP NAVBAR -->
+    <header class="bg-warm-900 border-b border-warm-800/80 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-xl bg-amber-600/20 border border-amber-600/40 flex items-center justify-center text-amber-500 shadow-md group-hover:scale-105 transition">
+                    <i class="fa-solid fa-scale-balanced text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-white font-extrabold text-base tracking-tight block">TransparansiWarga</span>
+                    <span class="text-amber-500/80 text-[10px] font-semibold tracking-wider uppercase block">PublicPulse 2026</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+                <a href="lapor.html" class="hidden sm:inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-warm-950 px-3.5 py-1.5 rounded-xl font-bold text-xs transition shadow-md shadow-amber-600/20">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span>Buat Pengaduan</span>
+                </a>
+                
+                <div class="flex items-center gap-3 pl-3 border-l border-warm-800">
+                    <div class="w-8 h-8 rounded-full bg-amber-600/20 border border-amber-500/40 text-amber-400 font-bold flex items-center justify-center text-xs">
+                        AW
+                    </div>
+                    <span class="hidden md:inline-block text-xs font-semibold text-white">Ahmad Warga</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- HEADER PROFIL USER -->
+        <div class="bg-warm-900 border border-warm-800 rounded-3xl p-6 sm:p-8 mb-8 relative overflow-hidden">
+            <!-- Background Ambient Glow -->
+            <div class="absolute -top-16 -right-16 w-64 h-64 bg-amber-600/10 blur-[90px] rounded-full pointer-events-none"></div>
+
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative z-10">
+                <!-- Avatar dengan Ring Amber Glow -->
+                <div class="relative shrink-0">
+                    <div class="w-24 h-24 rounded-full bg-warm-800 border-2 border-amber-500/80 p-1 shadow-lg shadow-amber-600/20 flex items-center justify-center">
+                        <div class="w-full h-full rounded-full bg-amber-600/20 flex items-center justify-center text-amber-400 text-3xl font-extrabold">
+                            AW
+                        </div>
+                    </div>
+                    <button class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-amber-600 text-warm-950 flex items-center justify-center text-xs shadow-md hover:bg-amber-500 transition" title="Ubah Foto Profil">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+                </div>
+
+                <!-- Info Identitas -->
+                <div class="text-center sm:text-left space-y-2 flex-1">
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
+                        <h1 class="text-2xl font-extrabold text-white tracking-tight">Ahmad Warga</h1>
+                        <!-- Badge Verifikasi -->
+                        <span class="inline-flex items-center gap-1.5 bg-emerald-950/80 border border-emerald-700/80 text-emerald-400 text-xs font-semibold px-3 py-0.5 rounded-full">
+                            <i class="fa-solid fa-circle-check text-[11px]"></i>
+                            <span>Warga Terverifikasi</span>
+                        </span>
+                    </div>
+
+                    <p class="text-warm-300 text-xs sm:text-sm flex items-center justify-center sm:justify-start gap-2">
+                        <i class="fa-regular fa-envelope text-warm-500"></i>
+                        <span>ahmad@warga.id</span>
+                    </p>
+
+                    <p class="text-warm-400 text-xs flex items-center justify-center sm:justify-start gap-2 pt-1">
+                        <i class="fa-regular fa-calendar text-warm-500"></i>
+                        <span>Anggota sejak 12 Januari 2026</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIMPLIFIED TOP NAVIGATION TABS (INFORMASI PRIBADI & AKTIVITAS LAPORAN ONLY) -->
+        <div class="flex items-center gap-3 mb-6 border-b border-warm-800 pb-3">
+            <button onclick="switchTab('tab-informasi', this)" class="tab-btn active inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-amber-400 bg-warm-900 border border-amber-500/30">
+                <i class="fa-solid fa-user text-xs"></i>
+                <span>Informasi Pribadi</span>
+            </button>
+
+            <button onclick="switchTab('tab-aktivitas', this)" class="tab-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-warm-400 hover:text-white hover:bg-warm-900">
+                <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+                <span>Aktivitas Laporan</span>
+            </button>
+        </div>
+
+        <!-- TAB CONTENT AREA -->
+        <div>
+            <!-- TAB 1: INFORMASI PRIBADI + INTEGRATED LOGOUT BUTTON -->
+            <div id="tab-informasi" class="tab-content animate-fade-in bg-warm-900 border border-warm-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Informasi Pribadi</h2>
+                    <p class="text-warm-400 text-xs mt-1">Kelola data profil dan kontak Anda di bawah ini.</p>
+                </div>
+
+                <form onsubmit="handleSaveProfile(event)" class="space-y-5">
+                    
+                    <!-- Nama Lengkap -->
+                    <div>
+                        <label for="profNama" class="block text-xs font-semibold text-warm-300 mb-1.5">Nama Lengkap</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-500 text-xs"></i>
+                            <input type="text" id="profNama" value="Ahmad Warga" required class="w-full bg-warm-950 border border-warm-800 text-white text-xs sm:text-sm rounded-xl pl-9 pr-4 py-3 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="profEmail" class="block text-xs font-semibold text-warm-300 mb-1.5">Alamat Email</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-500 text-xs"></i>
+                            <input type="email" id="profEmail" value="ahmad@warga.id" required class="w-full bg-warm-950 border border-warm-800 text-white text-xs sm:text-sm rounded-xl pl-9 pr-4 py-3 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div>
+                        <label for="profWA" class="block text-xs font-semibold text-warm-300 mb-1.5">Nomor WhatsApp</label>
+                        <div class="relative">
+                            <i class="fa-brands fa-whatsapp absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-500 text-xs"></i>
+                            <input type="tel" id="profWA" value="081234567890" placeholder="08xxxxxxxxxx" class="w-full bg-warm-950 border border-warm-800 text-white text-xs sm:text-sm rounded-xl pl-9 pr-4 py-3 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <!-- Ubah Kata Sandi -->
+                    <div class="pt-4 border-t border-warm-800/80">
+                        <h3 class="text-sm font-bold text-white mb-3">Ganti Kata Sandi</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="passBaru" class="block text-xs font-medium text-warm-400 mb-1">Kata Sandi Baru</label>
+                                <input type="password" id="passBaru" placeholder="Kosongkan jika tidak diubah" class="w-full bg-warm-950 border border-warm-800 text-white text-xs rounded-xl px-3.5 py-2.5 focus:border-amber-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label for="passKonfirm" class="block text-xs font-medium text-warm-400 mb-1">Konfirmasi Kata Sandi</label>
+                                <input type="password" id="passKonfirm" placeholder="Ketik ulang kata sandi" class="w-full bg-warm-950 border border-warm-800 text-white text-xs rounded-xl px-3.5 py-2.5 focus:border-amber-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS: SAVE & INTEGRATED LOGOUT -->
+                    <div class="pt-4 border-t border-warm-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <button type="submit" id="btnSave" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-500 text-warm-950 font-bold py-3 px-6 rounded-xl transition shadow-lg shadow-amber-600/20 text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Simpan Perubahan</span>
+                        </button>
+
+                        <!-- CONSOLIDATED LOGOUT BUTTON (WARM MUTED RED) -->
+                        <button type="button" onclick="handleLogout()" class="w-full sm:w-auto bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 font-semibold py-3 px-5 rounded-xl transition text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Keluar dari Akun</span>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- TAB 2: AKTIVITAS LAPORAN -->
+            <div id="tab-aktivitas" class="tab-content hidden animate-fade-in space-y-6">
+                
+                <!-- GRID 3 METRIK STATISTIK -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-warm-900 border border-warm-800 rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-600/15 border border-amber-500/30 text-amber-500 flex items-center justify-center text-xl font-bold shrink-0">
+                            5
+                        </div>
+                        <div>
+                            <span class="text-xs text-warm-400 block font-medium">Total Laporan</span>
+                            <span class="text-sm font-extrabold text-white">Dibuat</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-warm-900 border border-warm-800 rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-400 flex items-center justify-center text-xl font-bold shrink-0">
+                            2
+                        </div>
+                        <div>
+                            <span class="text-xs text-warm-400 block font-medium">Dalam Proses</span>
+                            <span class="text-sm font-extrabold text-amber-400">Sedang Ditangani</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-warm-900 border border-warm-800 rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-700/80 text-emerald-400 flex items-center justify-center text-xl font-bold shrink-0">
+                            3
+                        </div>
+                        <div>
+                            <span class="text-xs text-warm-400 block font-medium">Selesai</span>
+                            <span class="text-sm font-extrabold text-emerald-400">Tuntas Ditangani</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABEL RIWAYAT LAPORAN -->
+                <div class="bg-warm-900 border border-warm-800 rounded-3xl p-6 sm:p-8 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Riwayat Pengaduan</h2>
+                            <p class="text-warm-400 text-xs">Daftar aduan publik yang telah Anda kirimkan.</p>
+                        </div>
+                        <a href="lapor.html" class="text-xs font-semibold text-amber-500 hover:underline flex items-center gap-1">
+                            <span>Buat Baru</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-warm-300">
+                            <thead class="bg-warm-950 text-warm-400 uppercase text-[10px] font-bold tracking-wider">
+                                <tr>
+                                    <th class="px-4 py-3 rounded-l-xl">No. Resi</th>
+                                    <th class="px-4 py-3">Judul Pengaduan</th>
+                                    <th class="px-4 py-3">Kategori</th>
+                                    <th class="px-4 py-3">Tanggal</th>
+                                    <th class="px-4 py-3 rounded-r-xl">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-warm-800/60">
+                                <tr class="hover:bg-warm-800/30 transition">
+                                    <td class="px-4 py-3 font-mono text-amber-400 font-bold">#TRW-2026-991</td>
+                                    <td class="px-4 py-3 text-white font-medium">Jalan Berlubang Parah di Fatmawati</td>
+                                    <td class="px-4 py-3">Infrastruktur</td>
+                                    <td class="px-4 py-3 text-warm-400">06 Mar 2026</td>
+                                    <td class="px-4 py-3">
+                                        <span class="bg-amber-950 border border-amber-700 text-amber-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Diproses</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-warm-800/30 transition">
+                                    <td class="px-4 py-3 font-mono text-amber-400 font-bold">#TRW-2026-842</td>
+                                    <td class="px-4 py-3 text-white font-medium">PJU Mati di Area Taman Kota</td>
+                                    <td class="px-4 py-3">Fasilitas Umum</td>
+                                    <td class="px-4 py-3 text-warm-400">02 Mar 2026</td>
+                                    <td class="px-4 py-3">
+                                        <span class="bg-amber-950 border border-amber-700 text-amber-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Diproses</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-warm-800/30 transition">
+                                    <td class="px-4 py-3 font-mono text-amber-400 font-bold">#TRW-2026-701</td>
+                                    <td class="px-4 py-3 text-white font-medium">Penumpukan Sampah liar RT 05</td>
+                                    <td class="px-4 py-3">Kebersihan</td>
+                                    <td class="px-4 py-3 text-warm-400">20 Feb 2026</td>
+                                    <td class="px-4 py-3">
+                                        <span class="bg-emerald-950 border border-emerald-700 text-emerald-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Selesai</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-warm-800/30 transition">
+                                    <td class="px-4 py-3 font-mono text-amber-400 font-bold">#TRW-2026-610</td>
+                                    <td class="px-4 py-3 text-white font-medium">Genangan Air akibat Saluran Tersumbat</td>
+                                    <td class="px-4 py-3">Infrastruktur</td>
+                                    <td class="px-4 py-3 text-warm-400">14 Feb 2026</td>
+                                    <td class="px-4 py-3">
+                                        <span class="bg-emerald-950 border border-emerald-700 text-emerald-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Selesai</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden transition-all duration-300 transform translate-y-4">
+        <div id="toastBody" class="bg-warm-900 border border-emerald-800/80 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3.5 text-xs max-w-md">
+            <div id="toastIconContainer" class="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-700 flex items-center justify-center text-emerald-400 shrink-0">
+                <i id="toastIcon" class="fa-solid fa-circle-check text-sm"></i>
+            </div>
+            <div>
+                <span id="toastTitle" class="font-bold text-white block">Berhasil!</span>
+                <span id="toastMsg" class="text-warm-300 text-[11px]">Profil Anda telah berhasil diperbarui.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CONTROLLER -->
+    <script>
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-warm-400 hover:text-white hover:bg-warm-900";
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+
+            btnElement.className = "tab-btn active inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-amber-400 bg-warm-900 border border-amber-500/30";
+        }
+
+        function handleSaveProfile(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSave');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i><span>Menyimpan...</span>`;
+
+            setTimeout(() => {
+                showToast("Profil Diperbarui!", "Informasi akun berhasil disimpan.", "success");
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i><span>Simpan Perubahan</span>`;
+            }, 900);
+        }
+
+        function handleLogout() {
+            showToast("Sesi Diakhiri", "Anda telah keluar dari akun.", "info");
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1200);
+        }
+
+        function showToast(title, message, type = "success") {
+            const toast = document.getElementById('toast');
+            const toastBody = document.getElementById('toastBody');
+            const iconContainer = document.getElementById('toastIconContainer');
+            const icon = document.getElementById('toastIcon');
+
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMsg').textContent = message;
+
+            if (type === "info") {
+                toastBody.className = "bg-warm-900 border border-amber-800/80 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3.5 text-xs max-w-md";
+                iconContainer.className = "w-8 h-8 rounded-full bg-amber-950 border border-amber-700 flex items-center justify-center text-amber-400 shrink-0";
+                icon.className = "fa-solid fa-right-from-bracket text-sm";
+            } else {
+                toastBody.className = "bg-warm-900 border border-emerald-800/80 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3.5 text-xs max-w-md";
+                iconContainer.className = "w-8 h-8 rounded-full bg-emerald-950 border border-emerald-700 flex items-center justify-center text-emerald-400 shrink-0";
+                icon.className = "fa-solid fa-circle-check text-sm";
+            }
+
+            toast.classList.remove('hidden', 'translate-y-4');
+            toast.classList.add('translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
