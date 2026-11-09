@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "name": "Health",
+      "email": "akuncoba@gmail.com",
+      "passwordSalt": "cffa6db620c57a84ad44e50807737367",
+      "passwordHash": "7dcd140b63fae2298793ff5ee05263c16d44afdc307c8a64f277a5229cca00f8"
+    }
+  ]
+}

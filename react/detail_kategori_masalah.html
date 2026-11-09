@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,6 @@
     
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -21,17 +20,17 @@
                     },
                     colors: {
                         warm: {
-                            50: '#faf8f5',
-                            100: '#f3efe6',
-                            200: '#e5dccb',
-                            300: '#d4c2a7',
-                            400: '#bf9e7f',
-                            500: '#a7805b',
-                            600: '#8c6547',
-                            700: '#704f3a',
-                            800: '#3a2d24',
-                            900: '#231d19',
-                            950: '#161210',
+                            50: '#fbf7f0',
+                            100: '#f5eee2',
+                            200: '#eadfcc',
+                            300: '#d9c8ae',
+                            400: '#ad9a82',
+                            500: '#80705c',
+                            600: '#66574a',
+                            700: '#4d4036',
+                            800: '#3a2f27',
+                            900: '#261e18',
+                            950: '#1a140f',
                         }
                     }
                 }
@@ -48,24 +47,23 @@
         }
     </style>
 </head>
-<body class="bg-warm-950 text-warm-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-600 selection:text-warm-950">
+<body class="bg-warm-50 text-warm-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-warm-900">
 
     <!-- TOP NAVBAR -->
-    <header class="bg-warm-900 border-b border-warm-800/80 sticky top-0 z-40">
+    <header class="bg-white border-b border-warm-200 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3 group">
-                <div class="w-9 h-9 rounded-xl bg-amber-600/20 border border-amber-600/40 flex items-center justify-center text-amber-500 shadow-md group-hover:scale-105 transition duration-200">
+                <div class="w-9 h-9 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 shadow-sm transition duration-200">
                     <i class="fa-solid fa-scale-balanced text-lg"></i>
                 </div>
                 <div>
-                    <span class="text-white font-extrabold text-base tracking-tight block">TransparansiWarga</span>
-                    <span class="text-amber-500/80 text-[10px] font-semibold tracking-wider uppercase block">PublicPulse 2026</span>
+                    <span class="text-warm-900 font-bold text-base tracking-tight block">TransparansiWarga</span>
+                    <span class="text-amber-700 text-[10px] font-semibold block">PublicPulse 2026</span>
                 </div>
             </a>
 
             <div class="flex items-center gap-3">
-                <a href="index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-warm-400 hover:text-amber-500 transition-colors">
-                    <i class="fa-solid fa-arrow-left text-xs"></i>
+                <a href="index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-warm-600 hover:text-amber-800 transition-colors">
                     <span>Kembali ke Beranda</span>
                 </a>
             </div>
@@ -76,37 +74,36 @@
     <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in space-y-8">
         
         <!-- 1. HEADER KATEGORI DENGAN DROPDOWN SELECTOR -->
-        <div class="bg-warm-900 border border-warm-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+        <div class="bg-white border border-warm-200 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
             <!-- Ambient Glow -->
-            <div class="absolute -top-16 -right-16 w-64 h-64 bg-amber-600/10 blur-[90px] rounded-full pointer-events-none"></div>
 
-            <div class="space-y-4 relative z-10 pb-6 border-b border-warm-800/80">
+            <div class="space-y-4 relative z-10 pb-6 border-b border-warm-200">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     
                     <!-- DROPDOWN SELECTOR -->
                     <div class="relative min-w-[260px]">
-                        <label for="categorySelect" class="text-[11px] font-semibold text-warm-400 uppercase tracking-wider block mb-1">Pilih Kategori Masalah:</label>
+                        <label for="categorySelect" class="text-[11px] font-semibold text-warm-600 block mb-1">Pilih Kategori Masalah:</label>
                         <div class="relative">
-                            <select id="categorySelect" onchange="changeCategory(this.value)" class="w-full bg-warm-950 border border-warm-700 text-white font-bold text-sm sm:text-base rounded-xl px-4 py-2.5 pr-10 focus:border-amber-500 focus:outline-none appearance-none cursor-pointer transition">
+                            <select id="categorySelect" onchange="changeCategory(this.value)" class="w-full bg-warm-50 border border-warm-300 text-warm-900 font-bold text-sm sm:text-base rounded-xl px-4 py-2.5 pr-10 focus:border-amber-600 focus:outline-none appearance-none cursor-pointer transition">
                                 <option value="infrastruktur" selected>Infrastruktur &amp; Jalan</option>
                                 <option value="lingkungan">Lingkungan &amp; Sampah</option>
                                 <option value="bansos">Bantuan Sosial (Bansos)</option>
                                 <option value="fasilitas">Fasilitas Umum &amp; Lainnya</option>
                             </select>
-                            <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+                            <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-700 text-xs pointer-events-none"></i>
                         </div>
                     </div>
 
-                    <div class="text-xs text-warm-400 flex items-center gap-2 self-start sm:self-auto">
+                    <div class="text-xs text-warm-600 flex items-center gap-2 self-start sm:self-auto">
                         <span>Penanggung Jawab Utama:</span>
-                        <strong id="agencyBadge" class="text-white bg-warm-950 px-3 py-1.5 rounded-lg border border-warm-800 font-semibold">
+                        <strong id="agencyBadge" class="text-warm-900 bg-warm-50 px-3 py-1.5 rounded-lg border border-warm-200 font-semibold">
                             Dinas Bina Marga &amp; Sumber Daya Air
                         </strong>
                     </div>
                 </div>
 
                 <div>
-                    <p id="categoryDescription" class="text-warm-300 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
+                    <p id="categoryDescription" class="text-warm-700 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
                         Pemantauan transparansi perbaikan jalan berlubang, jembatan rusak, drainase, dan fasilitas umum jalan di seluruh wilayah kota.
                     </p>
                 </div>
@@ -115,40 +112,40 @@
             <!-- 4 SUMMARY STAT CARDS -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
                 <!-- Stat 1: Total Laporan dengan Rasio & Persentase -->
-                <div class="bg-warm-950/80 border border-warm-800/80 rounded-2xl p-4 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-amber-600/20 text-amber-500 flex items-center justify-center text-xl font-bold shrink-0">
+                <div class="bg-warm-50 border border-warm-200 rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold shrink-0">
                         <i class="fa-solid fa-folder-open"></i>
                     </div>
                     <div>
-                        <span class="text-warm-400 text-[11px] font-medium block">Total Laporan Masuk</span>
+                        <span class="text-warm-600 text-[11px] font-medium block">Total Laporan Masuk</span>
                         <div class="flex items-baseline gap-2">
-                            <strong id="totalCount" class="text-white text-base sm:text-lg font-extrabold">340 dari 1,354</strong>
-                            <span id="percentageBadge" class="text-[10px] bg-amber-600/20 text-amber-400 border border-amber-500/30 font-bold px-1.5 py-0.5 rounded">25.1%</span>
+                            <strong id="totalCount" class="text-warm-900 text-base sm:text-lg font-bold">340 dari 1,354</strong>
+                            <span id="percentageBadge" class="text-[10px] bg-amber-100 text-amber-700 border border-amber-200 font-bold px-1.5 py-0.5 rounded">25.1%</span>
                         </div>
                         <span class="text-[10px] text-warm-500">Porsi dari seluruh aduan kota</span>
                     </div>
                 </div>
 
                 <!-- Stat 2: Selesai Ditangani -->
-                <div class="bg-warm-950/80 border border-warm-800/80 rounded-2xl p-4 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center justify-center text-xl font-bold shrink-0">
+                <div class="bg-warm-50 border border-warm-200 rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center text-xl font-bold shrink-0">
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
                     <div>
-                        <span class="text-warm-400 text-[11px] font-medium block">Selesai Ditangani</span>
-                        <strong id="completedCount" class="text-emerald-400 text-base sm:text-lg font-extrabold">280 Laporan (82.3%)</strong>
+                        <span class="text-warm-600 text-[11px] font-medium block">Selesai Ditangani</span>
+                        <strong id="completedCount" class="text-emerald-700 text-base sm:text-lg font-bold">280 Laporan (82.3%)</strong>
                         <span class="text-[10px] text-warm-500 block">Tingkat keberhasilan tuntas</span>
                     </div>
                 </div>
 
                 <!-- Stat 3: Rata-rata SLA -->
-                <div class="bg-warm-950/80 border border-warm-800/80 rounded-2xl p-4 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-xl font-bold shrink-0">
+                <div class="bg-warm-50 border border-warm-200 rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold shrink-0">
                         <i class="fa-solid fa-stopwatch"></i>
                     </div>
                     <div>
-                        <span class="text-warm-400 text-[11px] font-medium block">Rata-rata Respon SLA</span>
-                        <strong id="slaTime" class="text-amber-400 text-base sm:text-lg font-extrabold">&plusmn; 3 Hari Kerja</strong>
+                        <span class="text-warm-600 text-[11px] font-medium block">Rata-rata Respon SLA</span>
+                        <strong id="slaTime" class="text-amber-700 text-base sm:text-lg font-bold">&plusmn; 3 Hari Kerja</strong>
                         <span class="text-[10px] text-warm-500 block">Kecepatan tindak lanjut</span>
                     </div>
                 </div>
@@ -156,31 +153,31 @@
         </div>
 
         <!-- 2. MONTHLY RESOLUTION TREND (INLINE SVG CHART) -->
-        <div class="bg-warm-900 border border-warm-800 rounded-3xl p-6 sm:p-8 space-y-6">
+        <div class="bg-white border border-warm-200 rounded-3xl p-6 sm:p-8 space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line text-amber-500 text-xs"></i>
+                    <h2 class="text-lg font-bold text-warm-900 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-amber-700 text-xs"></i>
                         <span>Tren Penanganan Bulanan (2026)</span>
                     </h2>
-                    <p class="text-warm-400 text-xs mt-0.5">Perbandingan aduan masuk vs penanganan yang diselesaikan per bulan.</p>
+                    <p class="text-warm-600 text-xs mt-0.5">Perbandingan aduan masuk vs penanganan yang diselesaikan per bulan.</p>
                 </div>
 
                 <!-- Chart Legend -->
                 <div class="flex items-center gap-4 text-xs">
-                    <span class="flex items-center gap-1.5 text-amber-400">
-                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                    <span class="flex items-center gap-1.5 text-amber-700">
+                        <span class="w-3 h-3 rounded-full bg-amber-600"></span>
                         <span>Masuk</span>
                     </span>
-                    <span class="flex items-center gap-1.5 text-emerald-400">
-                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    <span class="flex items-center gap-1.5 text-emerald-700">
+                        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
                         <span>Selesai</span>
                     </span>
                 </div>
             </div>
 
             <!-- SVG Graph Container -->
-            <div class="bg-warm-950 p-6 rounded-2xl border border-warm-800/80 overflow-hidden">
+            <div class="bg-warm-50 p-6 rounded-2xl border border-warm-200 overflow-hidden">
                 <svg viewBox="0 0 500 160" class="w-full h-44">
                     <!-- Grid Lines -->
                     <line x1="40" y1="20" x2="480" y2="20" stroke="#3a2d24" stroke-dasharray="4,4" stroke-width="1"/>
@@ -213,22 +210,22 @@
         </div>
 
         <!-- 3. FILTERED REPORT CARDS -->
-        <div class="bg-warm-900 border border-warm-800 rounded-3xl p-6 sm:p-8 space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-warm-800 pb-4">
+        <div class="bg-white border border-warm-200 rounded-3xl p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-warm-200 pb-4">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Daftar Pengaduan Masuk</h2>
-                    <p class="text-warm-400 text-xs">Arsip aduan warga berdasarkan kategori terpilih.</p>
+                    <h2 class="text-lg font-bold text-warm-900">Daftar Pengaduan Masuk</h2>
+                    <p class="text-warm-600 text-xs">Arsip aduan warga berdasarkan kategori terpilih.</p>
                 </div>
 
                 <!-- FILTER BUTTONS -->
-                <div class="flex items-center gap-2 bg-warm-950 p-1.5 rounded-2xl border border-warm-800">
-                    <button onclick="filterReports('all', this)" class="filter-btn active bg-amber-600 text-warm-950 font-bold px-3.5 py-1.5 rounded-xl text-xs transition">
+                <div class="flex items-center gap-2 bg-warm-50 p-1.5 rounded-2xl border border-warm-200">
+                    <button onclick="filterReports('all', this)" class="filter-btn active bg-amber-700 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition">
                         Semua
                     </button>
-                    <button onclick="filterReports('proses', this)" class="filter-btn text-warm-400 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">
+                    <button onclick="filterReports('proses', this)" class="filter-btn text-warm-600 hover:text-warm-900 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">
                         Dalam Proses
                     </button>
-                    <button onclick="filterReports('selesai', this)" class="filter-btn text-warm-400 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">
+                    <button onclick="filterReports('selesai', this)" class="filter-btn text-warm-600 hover:text-warm-900 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition">
                         Selesai
                     </button>
                 </div>
@@ -238,58 +235,58 @@
             <div id="reportList" class="space-y-4">
                 
                 <!-- CARD 1: PROSES -->
-                <div class="report-card proses bg-warm-950 border border-warm-800/80 hover:border-amber-500/50 rounded-2xl p-5 transition duration-200">
+                <div class="report-card proses bg-warm-50 border border-warm-200 hover:border-amber-400 rounded-2xl p-5 transition duration-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                         <div class="flex items-center gap-2.5">
-                            <span class="font-mono text-amber-500 font-extrabold text-xs bg-warm-900 px-2.5 py-1 rounded-lg border border-warm-800">#TW-2026-0892</span>
-                            <span class="bg-amber-950 border border-amber-700 text-amber-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Diproses</span>
+                            <span class="font-mono text-amber-700 font-bold text-xs bg-white px-2.5 py-1 rounded-lg border border-warm-200">#TW-2026-0892</span>
+                            <span class="bg-amber-50 border border-amber-200 text-amber-700 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Diproses</span>
                         </div>
                         <span class="text-warm-500 text-[11px] font-mono">06 Maret 2026</span>
                     </div>
-                    <h3 class="text-base font-bold text-white hover:text-amber-400 transition cursor-pointer">Perbaikan Jalan Berlubang Parah di Jl. Fatmawati</h3>
-                    <p class="text-warm-300 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                    <h3 class="text-base font-bold text-warm-900 hover:text-amber-800 transition cursor-pointer">Perbaikan Jalan Berlubang Parah di Jl. Fatmawati</h3>
+                    <p class="text-warm-700 text-xs mt-1.5 line-clamp-2 leading-relaxed">
                         Terdapat lubang jalan cukup dalam dan lebar di lajur kiri dekat lampu merah yang sangat membahayakan pengendara motor saat malam hari.
                     </p>
-                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-warm-900 text-xs text-warm-400">
-                        <i class="fa-solid fa-location-dot text-amber-500 text-xs"></i>
+                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-warm-200 text-xs text-warm-600">
+                        <i class="fa-solid fa-location-dot text-amber-700 text-xs"></i>
                         <span>Cilandak Barat, Jakarta Selatan</span>
                     </div>
                 </div>
 
                 <!-- CARD 2: PROSES -->
-                <div class="report-card proses bg-warm-950 border border-warm-800/80 hover:border-amber-500/50 rounded-2xl p-5 transition duration-200">
+                <div class="report-card proses bg-warm-50 border border-warm-200 hover:border-amber-400 rounded-2xl p-5 transition duration-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                         <div class="flex items-center gap-2.5">
-                            <span class="font-mono text-amber-500 font-extrabold text-xs bg-warm-900 px-2.5 py-1 rounded-lg border border-warm-800">#TW-2026-0741</span>
-                            <span class="bg-amber-950 border border-amber-700 text-amber-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Diproses</span>
+                            <span class="font-mono text-amber-700 font-bold text-xs bg-white px-2.5 py-1 rounded-lg border border-warm-200">#TW-2026-0741</span>
+                            <span class="bg-amber-50 border border-amber-200 text-amber-700 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Diproses</span>
                         </div>
                         <span class="text-warm-500 text-[11px] font-mono">01 Maret 2026</span>
                     </div>
-                    <h3 class="text-base font-bold text-white hover:text-amber-400 transition cursor-pointer">Trotoar Rusak dan Ambles Dekat Halte Bus</h3>
-                    <p class="text-warm-300 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                    <h3 class="text-base font-bold text-warm-900 hover:text-amber-800 transition cursor-pointer">Trotoar Rusak dan Ambles Dekat Halte Bus</h3>
+                    <p class="text-warm-700 text-xs mt-1.5 line-clamp-2 leading-relaxed">
                         Ubin pejalan kaki amblas sepanjang 2 meter membuat pejalan kaki terpaksa berjalan di bahu jalan raya.
                     </p>
-                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-warm-900 text-xs text-warm-400">
-                        <i class="fa-solid fa-location-dot text-amber-500 text-xs"></i>
+                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-warm-200 text-xs text-warm-600">
+                        <i class="fa-solid fa-location-dot text-amber-700 text-xs"></i>
                         <span>Kebayoran Baru, Jakarta Selatan</span>
                     </div>
                 </div>
 
                 <!-- CARD 3: SELESAI -->
-                <div class="report-card selesai bg-warm-950 border border-warm-800/80 hover:border-amber-500/50 rounded-2xl p-5 transition duration-200">
+                <div class="report-card selesai bg-warm-50 border border-warm-200 hover:border-amber-400 rounded-2xl p-5 transition duration-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                         <div class="flex items-center gap-2.5">
-                            <span class="font-mono text-amber-500 font-extrabold text-xs bg-warm-900 px-2.5 py-1 rounded-lg border border-warm-800">#TW-2026-0610</span>
-                            <span class="bg-emerald-950 border border-emerald-700 text-emerald-400 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Selesai</span>
+                            <span class="font-mono text-amber-700 font-bold text-xs bg-white px-2.5 py-1 rounded-lg border border-warm-200">#TW-2026-0610</span>
+                            <span class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold px-2.5 py-0.5 rounded-full text-[10px]">Selesai</span>
                         </div>
                         <span class="text-warm-500 text-[11px] font-mono">20 Februari 2026</span>
                     </div>
-                    <h3 class="text-base font-bold text-white hover:text-amber-400 transition cursor-pointer">Genangan Air Akibat Drainase Tersumbat</h3>
-                    <p class="text-warm-300 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                    <h3 class="text-base font-bold text-warm-900 hover:text-amber-800 transition cursor-pointer">Genangan Air Akibat Drainase Tersumbat</h3>
+                    <p class="text-warm-700 text-xs mt-1.5 line-clamp-2 leading-relaxed">
                         Pembersihan gorong-gorong dan pemeliharaan saluran air telah tuntas dilaksanakan oleh tim regu Bina Marga.
                     </p>
-                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-warm-900 text-xs text-warm-400">
-                        <i class="fa-solid fa-location-dot text-amber-500 text-xs"></i>
+                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-warm-200 text-xs text-warm-600">
+                        <i class="fa-solid fa-location-dot text-amber-700 text-xs"></i>
                         <span>Pancoran, Jakarta Selatan</span>
                     </div>
                 </div>
@@ -300,11 +297,11 @@
     </main>
 
     <!-- FOOTER INFORMASI SINGKAT -->
-    <footer class="bg-warm-900 border-t border-warm-800 py-6 px-4 text-center text-warm-400 text-xs">
+    <footer class="bg-white border-t border-warm-200 py-6 px-4 text-center text-warm-600 text-xs">
         <div class="max-w-4xl mx-auto space-y-1.5">
-            <p class="font-bold text-amber-500 tracking-wide">TransparansiWarga &bull; PublicPulse 2026</p>
-            <p class="text-warm-400 text-[11px]">Wadah pengaduan publik yang cepat, akuntabel, dan transparan untuk lingkungan kita.</p>
-            <p class="text-warm-500 text-[10px] pt-2 border-t border-warm-800/60">&copy; 2026 TransparansiWarga. Hak cipta dilindungi.</p>
+            <p class="font-bold text-amber-700">TransparansiWarga &bull; PublicPulse 2026</p>
+            <p class="text-warm-600 text-[11px]">Wadah pengaduan publik yang cepat, akuntabel, dan transparan untuk lingkungan kita.</p>
+            <p class="text-warm-500 text-[10px] pt-2 border-t border-warm-200">&copy; 2026 TransparansiWarga. Hak cipta dilindungi.</p>
         </div>
     </footer>
 
@@ -359,9 +356,9 @@
 
         function filterReports(status, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => {
-                b.className = "filter-btn text-warm-400 hover:text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold transition";
+                b.className = "filter-btn text-warm-600 hover:text-warm-900 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition";
             });
-            btn.className = "filter-btn active bg-amber-600 text-warm-950 font-bold px-3.5 py-1.5 rounded-xl text-xs transition";
+            btn.className = "filter-btn active bg-amber-700 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs transition";
 
             const cards = document.querySelectorAll('.report-card');
             cards.forEach(card => {

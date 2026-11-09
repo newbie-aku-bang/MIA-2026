@@ -121,11 +121,28 @@ const ROUTES = {
 };
 const REDIRECT_MS = 3000; // durasi animasi berhasil sebelum pindah ke beranda
 
-// TODO: ganti dengan request ke backend Anda (fetch/axios).
-// Lempar Error('pesan') bila gagal (mis. email sudah terdaftar), atau kembalikan { ok: true }.
 async function registerRequest({ name, email, password }) {
-  await new Promise(r => setTimeout(r, 900));
-  return { ok: true };
+  let response;
+  try {
+    response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+  } catch {
+    throw new Error('Server akun tidak terhubung. Jalankan "node server.js", lalu buka situs di http://127.0.0.1:3000.');
+  }
+  if (!response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error(`Server tidak menyediakan API pendaftaran (HTTP ${response.status}). Jalankan "node server.js" dan buka http://127.0.0.1:3000, bukan Live Server.`);
+  }
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error('Respons API pendaftaran kosong atau tidak valid. Pastikan server.js berjalan dan coba lagi.');
+  }
+  if (!response.ok) throw new Error(result.error || 'Pendaftaran gagal. Coba lagi.');
+  return result;
 }
 
 /* ====== Ikon ====== */

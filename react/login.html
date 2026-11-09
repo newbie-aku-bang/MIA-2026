@@ -98,18 +98,35 @@ const { useState } = React;
 const ROUTES = {
   home: 'index.html',
   signUp: 'sign_up.html',
-  dashboard: 'dashboard.html',
-  forgot: '#',
-  terms: '#',
-  privacy: '#'
+  dashboard: 'index.html',
+  forgot: 'lupa_password.html',
+  terms: 'syarat&ketentuan.html',
+  privacy: 'syarat&ketentuan.html'
 };
 const SOCIAL_URL = { google: '/auth/google', facebook: '/auth/facebook', github: '/auth/github' };
 
-// TODO: ganti dengan request ke backend Anda (fetch/axios).
-// Lempar Error('pesan') bila gagal, atau kembalikan { ok: true } bila berhasil.
 async function loginRequest({ email, password, remember }) {
-  await new Promise(r => setTimeout(r, 900));
-  return { ok: true };
+  let response;
+  try {
+    response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, remember })
+    });
+  } catch {
+    throw new Error('Server akun tidak terhubung. Jalankan "node server.js", lalu buka situs di http://127.0.0.1:3000.');
+  }
+  if (!response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error(`Server tidak menyediakan API login (HTTP ${response.status}). Jalankan "node server.js" dan buka http://127.0.0.1:3000, bukan Live Server.`);
+  }
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error('Respons API login kosong atau tidak valid. Pastikan server.js berjalan dan coba lagi.');
+  }
+  if (!response.ok) throw new Error(result.error || 'Login gagal. Coba lagi.');
+  return result;
 }
 
 /* ====== Ikon & logo ====== */

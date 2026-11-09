@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,6 @@
     
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -21,17 +20,17 @@
                     },
                     colors: {
                         warm: {
-                            50: '#faf8f5',
-                            100: '#f3efe6',
-                            200: '#e5dccb',
-                            300: '#d4c2a7',
-                            400: '#bf9e7f',
-                            500: '#a7805b',
-                            600: '#8c6547',
-                            700: '#704f3a',
-                            800: '#3a2d24',
-                            900: '#231d19',
-                            950: '#161210',
+                            50: '#fbf7f0',
+                            100: '#f5eee2',
+                            200: '#eadfcc',
+                            300: '#d9c8ae',
+                            400: '#ad9a82',
+                            500: '#80705c',
+                            600: '#66574a',
+                            700: '#4d4036',
+                            800: '#3a2f27',
+                            900: '#261e18',
+                            950: '#1a140f',
                         },
                         amberAccent: {
                             DEFAULT: '#d97706',
@@ -53,90 +52,87 @@
         }
     </style>
 </head>
-<body class="bg-warm-950 text-warm-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-600 selection:text-warm-950">
+<body class="bg-warm-50 text-warm-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-warm-900">
 
     <!-- MAIN CONTAINER (SPLIT SCREEN LAYOUT) -->
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-screen">
         
         <!-- LEFT PANEL: BRANDING & GUIDELINES SHOWCASE -->
-        <div class="hidden lg:flex lg:col-span-5 bg-warm-900/90 border-r border-warm-800/80 p-12 flex-col justify-between relative overflow-hidden">
+        <div class="hidden lg:flex lg:col-span-5 bg-warm-100 border-r border-warm-200 p-12 flex-col justify-between relative overflow-hidden">
             
             <!-- Soft Glow Accents -->
-            <div class="absolute -top-20 -left-20 w-96 h-96 bg-amber-600/10 blur-[130px] rounded-full pointer-events-none"></div>
-            <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-amber-700/10 blur-[130px] rounded-full pointer-events-none"></div>
 
             <!-- Top Header & Brand Identity -->
             <div class="relative z-10">
                 <a href="index.html" class="flex items-center gap-3 group inline-flex">
-                    <div class="w-11 h-11 rounded-xl bg-amber-600/20 border border-amber-600/40 flex items-center justify-center text-amber-500 shadow-md group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-11 h-11 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 shadow-sm transition-transform duration-200">
                         <i class="fa-solid fa-scale-balanced text-xl"></i>
                     </div>
                     <div>
-                        <span class="text-white font-extrabold text-xl tracking-tight block">TransparansiWarga</span>
-                        <span class="text-amber-500/80 text-[11px] font-semibold tracking-wider uppercase block">PublicPulse 2026</span>
+                        <span class="text-warm-900 font-bold text-xl tracking-tight block">TransparansiWarga</span>
+                        <span class="text-amber-700 text-[11px] font-semibold block">PublicPulse 2026</span>
                     </div>
                 </a>
             </div>
 
             <!-- Middle Core Info -->
             <div class="relative z-10 my-auto py-10">
-                <span class="inline-flex items-center gap-2 bg-amber-600/10 border border-amber-600/20 text-amber-500 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-6">
+                <span class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-6">
                     <i class="fa-solid fa-bullhorn text-xs"></i> Buat Laporan Pengaduan
                 </span>
                 
-                <h1 class="text-3xl font-extrabold text-white leading-tight">
+                <h1 class="text-3xl font-bold text-warm-900 leading-tight">
                     Suarakan Masalah Publik Tanpa Ragu.
                 </h1>
                 
-                <p class="mt-4 text-warm-300 text-sm leading-relaxed">
+                <p class="mt-4 text-warm-700 text-sm leading-relaxed">
                     Setiap aduan yang masuk secara otomatis terdaftar dengan nomor resi unik dan dilacak berdasarkan batas waktu pengerjaan dinas (*SLA*) secara akuntabel.
                 </p>
 
                 <!-- 3 Fast Check Rules -->
-                <div class="mt-8 space-y-4 text-xs text-warm-300">
-                    <div class="flex items-start gap-3 bg-warm-950/60 p-3.5 rounded-xl border border-warm-800/60">
-                        <div class="w-6 h-6 rounded-lg bg-amber-600/20 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                <div class="mt-8 space-y-4 text-xs text-warm-700">
+                    <div class="flex items-start gap-3 bg-warm-50 p-3.5 rounded-xl border border-warm-200">
+                        <div class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-check text-xs"></i>
                         </div>
                         <div>
-                            <strong class="text-white block font-semibold">Presisi Lokasi Kejadian</strong>
-                            <p class="text-[11px] text-warm-400 mt-0.5">Sebutkan nama jalan atau patokan wilayah agar petugas mudah menjangkau titik kerusakan.</p>
+                            <strong class="text-warm-900 block font-semibold">Presisi Lokasi Kejadian</strong>
+                            <p class="text-[11px] text-warm-600 mt-0.5">Sebutkan nama jalan atau patokan wilayah agar petugas mudah menjangkau titik kerusakan.</p>
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-3 bg-warm-950/60 p-3.5 rounded-xl border border-warm-800/60">
-                        <div class="w-6 h-6 rounded-lg bg-amber-600/20 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <div class="flex items-start gap-3 bg-warm-50 p-3.5 rounded-xl border border-warm-200">
+                        <div class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
                             <i class="fa-solid fa-check text-xs"></i>
                         </div>
                         <div>
-                            <strong class="text-white block font-semibold">Bukti Visual Opsional</strong>
-                            <p class="text-[11px] text-warm-400 mt-0.5">Melampirkan foto mempercepat proses verifikasi tim di lapangan.</p>
+                            <strong class="text-warm-900 block font-semibold">Bukti Visual Opsional</strong>
+                            <p class="text-[11px] text-warm-600 mt-0.5">Melampirkan foto mempercepat proses verifikasi tim di lapangan.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Footer Note -->
-            <div class="relative z-10 pt-6 border-t border-warm-800/60 flex items-center justify-between text-xs text-warm-400">
+            <div class="relative z-10 pt-6 border-t border-warm-200 flex items-center justify-between text-xs text-warm-600">
                 <span>&copy; 2026 TransparansiWarga</span>
                 <span>WIA MIA Competition</span>
             </div>
         </div>
 
         <!-- RIGHT PANEL: CLEAN REPORT FORM -->
-        <div class="lg:col-span-7 bg-warm-950 p-6 sm:p-10 lg:p-14 flex flex-col justify-between items-center relative">
+        <div class="lg:col-span-7 bg-warm-50 p-6 sm:p-10 lg:p-14 flex flex-col justify-between items-center relative">
             
             <!-- Top Navigation Back Link -->
             <div class="w-full max-w-lg flex items-center justify-between mb-6">
                 <a href="index.html" class="flex lg:hidden items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-amber-600/20 border border-amber-600/40 flex items-center justify-center text-amber-500">
+                    <div class="w-8 h-8 rounded-lg bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700">
                         <i class="fa-solid fa-scale-balanced text-sm"></i>
                     </div>
-                    <span class="text-white font-bold text-sm">TransparansiWarga</span>
+                    <span class="text-warm-900 font-bold text-sm">TransparansiWarga</span>
                 </a>
 
-                <a href="index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-warm-400 hover:text-amber-500 transition-colors ml-auto">
-                    <i class="fa-solid fa-arrow-left text-xs"></i>
+                <a href="index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-warm-600 hover:text-amber-800 transition-colors ml-auto">
                     <span>Kembali ke Beranda</span>
                 </a>
             </div>
@@ -146,8 +142,8 @@
                 
                 <!-- Title Header -->
                 <div class="mb-8">
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Form Pengaduan Warga</h2>
-                    <p class="text-warm-400 text-xs sm:text-sm mt-1.5">Lengkapi 5 kolom detail pengaduan di bawah ini untuk memulai pelaporan.</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-warm-900 tracking-tight">Form Pengaduan Warga</h2>
+                    <p class="text-warm-600 text-xs sm:text-sm mt-1.5">Lengkapi 5 kolom detail pengaduan di bawah ini untuk memulai pelaporan.</p>
                 </div>
 
                 <!-- MAIN FORM -->
@@ -155,33 +151,31 @@
                     
                     <!-- 1. JUDUL LAPORAN -->
                     <div>
-                        <label for="judul" class="block text-xs font-semibold text-warm-300 mb-1.5">
-                            1. Judul Laporan <span class="text-amber-500">*</span>
+                        <label for="judul" class="block text-xs font-semibold text-warm-700 mb-1.5">
+                            1. Judul Laporan <span class="text-amber-700">*</span>
                         </label>
                         <div class="relative">
-                            <i class="fa-solid fa-pen absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-500 text-xs"></i>
-                            <input type="text" id="judul" required placeholder="misal: Jalan Berlubang Parah di Perempatan Fatmawati" class="w-full bg-warm-900 border border-warm-800 text-white placeholder-warm-500 text-xs sm:text-sm rounded-xl pl-9 pr-4 py-3 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition">
+                            <input type="text" id="judul" required placeholder="misal: Jalan Berlubang Parah di Perempatan Fatmawati" class="w-full bg-white border border-warm-200 text-warm-900 placeholder-warm-400 text-xs sm:text-sm rounded-xl pl-4 pr-4 py-3 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 focus:outline-none transition">
                         </div>
                     </div>
 
                     <!-- 2. PENJELASAN LAPORAN -->
                     <div>
-                        <label for="penjelasan" class="block text-xs font-semibold text-warm-300 mb-1.5">
-                            2. Penjelasan Laporan <span class="text-amber-500">*</span>
+                        <label for="penjelasan" class="block text-xs font-semibold text-warm-700 mb-1.5">
+                            2. Penjelasan Laporan <span class="text-amber-700">*</span>
                         </label>
                         <div class="relative">
-                            <textarea id="penjelasan" rows="4" required placeholder="Jelaskan detail masalah, kondisi fisik, dan dampak yang dirasakan warga..." class="w-full bg-warm-900 border border-warm-800 text-white placeholder-warm-500 text-xs sm:text-sm rounded-xl p-3.5 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition"></textarea>
+                            <textarea id="penjelasan" rows="4" required placeholder="Jelaskan detail masalah, kondisi fisik, dan dampak yang dirasakan warga..." class="w-full bg-white border border-warm-200 text-warm-900 placeholder-warm-400 text-xs sm:text-sm rounded-xl p-3.5 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 focus:outline-none transition"></textarea>
                         </div>
                     </div>
 
                     <!-- 3. KATEGORI -->
                     <div>
-                        <label for="kategori" class="block text-xs font-semibold text-warm-300 mb-1.5">
-                            3. Kategori Pengaduan <span class="text-amber-500">*</span>
+                        <label for="kategori" class="block text-xs font-semibold text-warm-700 mb-1.5">
+                            3. Kategori Pengaduan <span class="text-amber-700">*</span>
                         </label>
                         <div class="relative">
-                            <i class="fa-solid fa-list-check absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-500 text-xs pointer-events-none"></i>
-                            <select id="kategori" required class="w-full bg-warm-900 border border-warm-800 text-white text-xs sm:text-sm rounded-xl pl-9 pr-8 py-3 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition appearance-none cursor-pointer">
+                            <select id="kategori" required class="w-full bg-white border border-warm-200 text-warm-900 text-xs sm:text-sm rounded-xl pl-4 pr-8 py-3 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 focus:outline-none transition appearance-none cursor-pointer">
                                 <option value="" disabled selected class="text-warm-500">Pilih Kategori Masalah...</option>
                                 <option value="Infrastruktur">Jalan & Infrastruktur</option>
                                 <option value="Kebersihan">Kebersihan & Sampah</option>
@@ -195,41 +189,40 @@
 
                     <!-- 4. LOKASI KEJADIAN -->
                     <div>
-                        <label for="lokasi" class="block text-xs font-semibold text-warm-300 mb-1.5">
-                            4. Lokasi Kejadian <span class="text-amber-500">*</span>
+                        <label for="lokasi" class="block text-xs font-semibold text-warm-700 mb-1.5">
+                            4. Lokasi Kejadian <span class="text-amber-700">*</span>
                         </label>
                         <div class="relative">
-                            <i class="fa-solid fa-location-dot absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-500 text-xs"></i>
-                            <input type="text" id="lokasi" required placeholder="misal: Jl. Raden Fatah No. 12, RT 02/RW 05" class="w-full bg-warm-900 border border-warm-800 text-white placeholder-warm-500 text-xs sm:text-sm rounded-xl pl-9 pr-4 py-3 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition">
+                            <input type="text" id="lokasi" required placeholder="misal: Jl. Raden Fatah No. 12, RT 02/RW 05" class="w-full bg-white border border-warm-200 text-warm-900 placeholder-warm-400 text-xs sm:text-sm rounded-xl pl-4 pr-4 py-3 focus:border-amber-600 focus:ring-1 focus:ring-amber-600 focus:outline-none transition">
                         </div>
                     </div>
 
                     <!-- 5. BUKTI PENDUKUNG (FOTO - OPSIONAL) -->
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
-                            <label for="fileUpload" class="block text-xs font-semibold text-warm-300">
+                            <label for="fileUpload" class="block text-xs font-semibold text-warm-700">
                                 5. Bukti Pendukung Foto
                             </label>
-                            <span class="text-[11px] font-medium text-warm-500 uppercase tracking-wider bg-warm-900 border border-warm-800 px-2 py-0.5 rounded">Opsional</span>
+                            <span class="text-[11px] font-medium text-warm-500 bg-white border border-warm-200 px-2 py-0.5 rounded">Opsional</span>
                         </div>
                         
-                        <div onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-warm-800 hover:border-amber-500/60 bg-warm-900/60 hover:bg-warm-900 rounded-2xl p-5 text-center cursor-pointer transition duration-200 group">
+                        <div onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-warm-200 hover:border-amber-400 bg-white/70 hover:bg-white rounded-2xl p-5 text-center cursor-pointer transition duration-200 group">
                             <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
                             
                             <div id="uploadPlaceholder" class="space-y-2">
-                                <div class="w-10 h-10 rounded-xl bg-warm-800 text-amber-500 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                                <div class="w-10 h-10 rounded-xl bg-warm-100 text-amber-700 flex items-center justify-center mx-auto transition-transform">
                                     <i class="fa-solid fa-camera text-base"></i>
                                 </div>
-                                <p class="text-xs text-warm-300 font-medium">Klik untuk memilih foto kerusakan</p>
+                                <p class="text-xs text-warm-700 font-medium">Klik untuk memilih foto kerusakan</p>
                                 <p class="text-[11px] text-warm-500">Format JPG, PNG, WEBP (Maks. 5MB)</p>
                             </div>
 
-                            <div id="uploadPreview" class="hidden flex items-center justify-between bg-warm-950 p-3 rounded-xl border border-warm-800">
+                            <div id="uploadPreview" class="hidden flex items-center justify-between bg-warm-50 p-3 rounded-xl border border-warm-200">
                                 <div class="flex items-center gap-3 overflow-hidden">
-                                    <i class="fa-solid fa-image text-amber-500 text-lg shrink-0"></i>
-                                    <span id="fileName" class="text-xs text-warm-200 font-medium truncate">foto_bukti.jpg</span>
+                                    <i class="fa-solid fa-image text-amber-700 text-lg shrink-0"></i>
+                                    <span id="fileName" class="text-xs text-warm-800 font-medium truncate">foto_bukti.jpg</span>
                                 </div>
-                                <button type="button" onclick="event.stopPropagation(); removeFile();" class="text-warm-400 hover:text-rose-400 p-1.5 transition">
+                                <button type="button" onclick="event.stopPropagation(); removeFile();" class="text-warm-600 hover:text-rose-700 p-1.5 transition">
                                     <i class="fa-solid fa-xmark text-sm"></i>
                                 </button>
                             </div>
@@ -238,8 +231,7 @@
 
                     <!-- SUBMIT BUTTON -->
                     <div class="pt-3">
-                        <button type="submit" id="submitBtn" class="w-full bg-amber-600 hover:bg-amber-500 text-warm-950 font-bold py-3.5 px-4 rounded-xl transition duration-200 shadow-lg shadow-amber-600/20 flex items-center justify-center gap-2.5 text-xs sm:text-sm">
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        <button type="submit" id="submitBtn" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-3.5 px-4 rounded-xl transition duration-200 shadow-sm flex items-center justify-center gap-2.5 text-xs sm:text-sm">
                             <span>Kirim Pengaduan Warga</span>
                         </button>
                     </div>
@@ -249,7 +241,7 @@
             </div>
 
             <!-- Footer Note -->
-            <div class="w-full max-w-lg pt-6 text-center text-[11px] text-warm-500 border-t border-warm-900/80 mt-6">
+            <div class="w-full max-w-lg pt-6 text-center text-[11px] text-warm-500 border-t border-warm-200 mt-6">
                 <span>Data aduan dijamin kerahasiaan pelapornya sesuai standar privasi TransparansiWarga.</span>
             </div>
         </div>
@@ -258,13 +250,13 @@
 
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 hidden transition-all duration-300 transform translate-y-4">
-        <div class="bg-warm-900 border border-emerald-800/80 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3.5 text-xs max-w-md">
-            <div class="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-700 flex items-center justify-center text-emerald-400 shrink-0">
+        <div class="bg-white border border-emerald-200 text-warm-900 px-5 py-4 rounded-2xl shadow-lg flex items-center gap-3.5 text-xs max-w-md">
+            <div class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shrink-0">
                 <i class="fa-solid fa-circle-check text-sm"></i>
             </div>
             <div>
-                <span class="font-bold text-white block">Laporan Berhasil Terkirim!</span>
-                <span class="text-warm-300 text-[11px]" id="toastMsg">Nomor Resi Unik Anda: #TRW-2026-991</span>
+                <span class="font-bold text-warm-900 block">Laporan Berhasil Terkirim!</span>
+                <span class="text-warm-700 text-[11px]" id="toastMsg">Nomor Resi Unik Anda: #TRW-2026-991</span>
             </div>
         </div>
     </div>
@@ -299,7 +291,7 @@
                 showToast(`Nomor Resi Unik Anda: ${randomTicket}`);
                 
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-check text-xs"></i><span>Laporan Terkirim!</span>`;
+                btn.innerHTML = `<span>Laporan Terkirim!</span>`;
 
                 setTimeout(() => {
                     window.location.href = "index.html#lacak";
