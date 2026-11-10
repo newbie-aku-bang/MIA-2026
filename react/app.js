@@ -9,8 +9,10 @@ const BEFORE_AFTER_ALL_URL = new URL('before_dan_after_all.html', APP_DIRECTORY_
 const USER_PROFILE_URL = new URL('user_profile.html', APP_DIRECTORY_URL).href;
 const LOGIN_URL = new URL('login.html', APP_DIRECTORY_URL).href;
 const REPORT_FORM_URL = new URL('form_pengaduan.html', APP_DIRECTORY_URL).href;
+const APBD_TRANSPARENCY_URL = new URL('transparansi_anggaran_apbd.html', APP_DIRECTORY_URL).href;
 const REPORT_HISTORY_URL = new URL('rekam_jejak_detail.html', APP_DIRECTORY_URL).href;
 const CATEGORY_DETAIL_URL = new URL('detail_kategori_masalah.html', APP_DIRECTORY_URL).href;
+const MAP_DETAIL_URL = new URL('../map%20aksiwarga/index.html', APP_DIRECTORY_URL).href;
 
 const BA_MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 const baDate = (value) => {
@@ -68,11 +70,9 @@ const SHORTCUT_LINKS = [
 ];
 
 const DESKTOP_MENU_LINKS = [
-    { label: 'Buat Laporan', href: '/buat-laporan' },
-    { label: 'Cek Laporan', href: '/cek-laporan' },
-    { label: 'Transparasi Data', href: '/transparansi-anggaran' },
     { label: 'FAQ', href: '/FAQ.html' },
 ];
+const TERMS_URL = 'syarat&ketentuan.html';
 
 function Island({ hidden, onNavigate }) {
     const [open, setOpen] = useState(false);
@@ -216,7 +216,35 @@ function Header({ open, light, afterHero, setOpen, theme, setTheme }) {
 /* ===== DROPDOWN MENU ===== */
 function MenuPanel({ open, setOpen }) {
     const navigate = useNavigate();
+    const { isLoggedIn, authReady } = useAuth();
+    const [loginPrompt, setLoginPrompt] = useState(false);
+    const [pendingTarget, setPendingTarget] = useState(null);
+    const menuLinks = [
+        { label: 'Buat Laporan', href: isLoggedIn ? REPORT_FORM_URL : '#login-required', target: REPORT_FORM_URL, requiresLogin: true },
+        { label: 'Cek Laporan', href: isLoggedIn ? USER_PROFILE_URL : '#login-required', target: USER_PROFILE_URL, requiresLogin: true },
+        { label: 'Transparansi Data', href: APBD_TRANSPARENCY_URL },
+        ...DESKTOP_MENU_LINKS,
+    ];
     const close = () => setOpen(false);
+    useEffect(() => {
+        if (!authReady || !pendingTarget) return;
+        if (isLoggedIn) {
+            window.location.href = pendingTarget;
+            return;
+        }
+        setPendingTarget(null);
+        setLoginPrompt(true);
+    }, [authReady, isLoggedIn, pendingTarget]);
+
+    useEffect(() => {
+        if (!loginPrompt) return undefined;
+        const closeOnEscape = (event) => {
+            if (event.key === 'Escape') setLoginPrompt(false);
+        };
+        document.addEventListener('keydown', closeOnEscape);
+        return () => document.removeEventListener('keydown', closeOnEscape);
+    }, [loginPrompt]);
+
     const handleMenuClick = (event, href) => {
         close();
         if (window.location.protocol !== 'file:' || !href.startsWith('/')) return;
@@ -228,19 +256,69 @@ function MenuPanel({ open, setOpen }) {
             navigate(href);
         }
     };
+    const handleProtectedMenuClick = (event, item) => {
+        if (isLoggedIn) {
+            handleMenuClick(event, item.href);
+            return;
+        }
+        event.preventDefault();
+        close();
+        if (authReady) {
+            setLoginPrompt(true);
+        } else {
+            setPendingTarget(item.target);
+        }
+    };
     const handleShortcutClick = (event, target) => {
         close();
         if (window.location.protocol !== 'file:' || !target.startsWith('/#')) return;
         event.preventDefault();
         document.getElementById(target.slice(2))?.scrollIntoView({ behavior: 'smooth' });
     };
-    return h('div', { id: 'menu-panel', className: 'menu-panel', 'data-open': String(open), inert: open ? undefined : '' },
-        h('ul', { className: 'menu-list desktop-menu-list' }, DESKTOP_MENU_LINKS.map((item, i) =>
-            h('li', { key: item.label, className: 'menu-item menu-group', style: { '--i': i } },
-                h('a', { href: item.href, className: 'menu-link', onClick: (event) => handleMenuClick(event, item.href) }, item.label)))),
-        h('ul', { className: 'mobile-shortcuts menu-item', style: { '--i': 0 } }, SHORTCUT_LINKS.map((item) =>
-            h('li', { key: item.label },
-                h('a', { href: item.target, onClick: (event) => handleShortcutClick(event, item.target) }, item.label)))));
+    return h(Fragment, null,
+        h('div', { id: 'menu-panel', className: 'menu-panel', 'data-open': String(open), inert: open ? undefined : '' },
+            h('ul', { className: 'menu-list desktop-menu-list' }, menuLinks.map((item, i) =>
+                h('li', { key: item.label, className: 'menu-item menu-group', style: { '--i': i } },
+                    h('a', {
+                        href: item.href,
+                        className: 'menu-link',
+                        onClick: (event) => item.requiresLogin
+                            ? handleProtectedMenuClick(event, item)
+                            : handleMenuClick(event, item.href),
+                    }, item.label)))),
+            h('ul', { className: 'mobile-shortcuts menu-item', style: { '--i': 0 } }, SHORTCUT_LINKS.map((item) =>
+                h('li', { key: item.label },
+                    h('a', { href: item.target, onClick: (event) => handleShortcutClick(event, item.target) }, item.label)))),
+            h('div', { className: 'menu-footer menu-item', style: { '--i': menuLinks.length } },
+                h('a', { href: TERMS_URL, className: 'menu-terms' }, 'Syarat & Ketentuan'),
+                h('span', { className: 'menu-credit' }, '© 2026 AksiWarga'))),
+        loginPrompt && h('div', {
+            className: 'fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm',
+            role: 'presentation',
+            onClick: (event) => {
+                if (event.target === event.currentTarget) setLoginPrompt(false);
+            },
+        },
+            h('section', {
+                className: 'w-full max-w-sm rounded-3xl border border-warm-200 bg-white p-6 text-center text-warm-900 shadow-2xl',
+                role: 'dialog',
+                'aria-modal': 'true',
+                'aria-labelledby': 'login-prompt-title',
+            },
+                h('div', { className: 'mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-amber-50 text-amber-700' },
+                    h('i', { className: 'fa-solid fa-lock', 'aria-hidden': 'true' })),
+                h('h2', { id: 'login-prompt-title', className: 'text-lg font-bold' }, 'Silahkan Login Terlebih dahulu'),
+                h('p', { className: 'mt-2 text-sm text-warm-600' }, 'Masuk ke akun AksiWarga untuk melanjutkan.'),
+                h('div', { className: 'mt-6 flex justify-center gap-3' },
+                    h('button', {
+                        type: 'button',
+                        className: 'rounded-xl border border-warm-200 bg-warm-50 px-4 py-2 text-sm font-semibold text-warm-700 transition hover:bg-warm-100',
+                        onClick: () => setLoginPrompt(false),
+                    }, 'Batal'),
+                    h('a', {
+                        href: LOGIN_URL,
+                        className: 'rounded-xl bg-amber-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-amber-800',
+                    }, 'Sign in')))));
 }
 
 /* ===== HERO (background tidak diubah) ===== */
@@ -256,7 +334,7 @@ function Hero() {
                 'Mulai dari tumpukan sampah hingga antrean bansos—kini warga bisa mengawasi kinerja pelayanan publik tanpa batasan birokrasi.'),
             h('div', { className: 'mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row' },
                 h('a', { href: '#peta', className: btn + ' hero-map-link' }, 'Lihat Peta'),
-                h('a', { href: '#laporan', className: btn + ' border border-white/50 text-white hover:bg-white/10' }, 'Laporkan Masalah'))));
+                h('a', { href: 'form_pengaduan.html', className: btn + ' border border-white/50 text-white hover:bg-white/10' }, 'Laporkan Masalah'))));
 }
 
 /* ===== KOTAK DATA: outline dihitung dari ukuran kotak ===== */
@@ -329,21 +407,21 @@ function Actions() {
         h('span', { className: 'action-desc' }, a.desc))));
 }
 
-/* ===== PETA: tempat peta saja (peta dipasang di #peta-indonesia nanti) ===== */
+/* ===== PETA INTERAKTIF ===== */
 const LEGEND = [
-    ['#16803c', '85% atau lebih'],
-    ['#2563eb', '70% sampai 85%'],
-    ['#ca8a04', '55% sampai 70%'],
-    ['#dc2626', 'Di bawah 55%'],
+    ['#35a66f', '85% atau lebih'],
+    ['#438bd1', '70% sampai 85%'],
+    ['#e7b83f', '55% sampai 70%'],
+    ['#d9534f', 'Di bawah 55%'],
 ];
 function Peta() {
     return h('section', { id: 'peta', 'data-light': '', className: 'section' },
         h('div', { className: 'wide' },
             h(Heading, { title: 'Lihat Lebih Luas', sub: 'Pantau daerahmu disini.' }),
             h('div', { className: 'map-bar' },
-                h('p', { className: 'map-hint' }, h('i'), 'Arahkan kursor ke provinsi untuk melihat ringkasan pengaduan.'),
-                h('button', { type: 'button', className: 'chip' }, h(Icon, { name: 'link' }), 'Lihat Detail')),
-            h('div', { id: 'peta-indonesia', className: 'map-shape', role: 'img', 'aria-label': 'Area peta Indonesia' }, h('span', null, 'Area peta Indonesia')),
+                h('p', { className: 'map-hint' }, h('i'), 'Arahkan kursor ke kabupaten/kota untuk melihat ringkasan pengaduan.'),
+                h('a', { className: 'chip', href: MAP_DETAIL_URL }, h(Icon, { name: 'link' }), 'Lihat Detail')),
+            h('div', { id: 'peta-indonesia', className: 'map-shape' }, h(window.IndonesiaMap)),
             h('div', { className: 'map-foot' },
                 h('div', { className: 'card legend' },
                     h('h3', null, 'Tingkat penyelesaian (SLA)'),
@@ -362,10 +440,10 @@ const TREND = { /* tambah tahun baru cukup dengan menambah baris di sini */
 const YEARS = Object.keys(TREND).map(Number).reverse();
 const RATIO = [['#16803c', 45, 'Selesai'], ['#ca8a04', 35, 'Proses'], ['#dc2626', 20, 'Overdue']];
 const RANKING = [
-    ['Dinas Bina Marga', 'Infrastruktur', 440, '94%', '1.2 Hari'],
-    ['Dinas Lingkungan Hidup', 'Kebersihan', 386, '88%', '1.4 Hari'],
-    ['Dinas Sosial', 'Bantuan Sosial (Bansos)', 350, '82%', '2.1 Hari'],
-    ['Dinas Perhubungan', 'Keselamatan Umum', 280, '78%', '2.4 Hari'],
+    ['Dinas Bina Marga', 'Infrastruktur', 440, '94%', '1.2 Hari', '🙂'],
+    ['Dinas Lingkungan Hidup', 'Kebersihan', 386, '88%', '1.4 Hari', '🙂'],
+    ['Dinas Sosial', 'Bantuan Sosial (Bansos)', 350, '82%', '2.1 Hari', '🙁'],
+    ['Dinas Perhubungan', 'Keselamatan Umum', 280, '78%', '2.4 Hari', '🙂'],
 ];
 const CATEGORIES = [['Infrastruktur & Jalan', 45], ['Lingkungan & Sampah', 25], ['Bantuan Sosial (Bansos)', 16], ['Fasilitas Umum & Lainnya', 12]];
 
@@ -407,7 +485,7 @@ function Trend() {
         h('div', { className: 'chart-head' },
             h('div', null,
                 h('h3', { className: 'card-title' }, `Tren Aktivitas Penanganan (${year})`),
-                h('p', { className: 'card-sub' }, `Data resmi — perbandingan laporan masuk dan laporan diselesaikan per bulan (${MONTHS[0]}–${MONTHS[last]} ${year}).`),
+                h('p', { className: 'card-sub' }, `Data resmi perbandingan laporan masuk dan laporan diselesaikan per bulan (${MONTHS[0]}–${MONTHS[last]} ${year}).`),
                 h('ul', { className: 'key' }, SERIES.map(([k, c, label]) => h('li', { key: k }, h('i', { style: { background: c } }), label)))),
             h('label', { className: 'year' }, 'Tahun',
                 h('select', { value: year, 'aria-label': 'Pilih tahun', onChange: (e) => setYear(Number(e.target.value)) }, YEARS.map((v) => h('option', { key: v, value: v }, v))))),
@@ -417,12 +495,16 @@ function Trend() {
 function Ranking() {
     return h('div', { className: 'card rank' },
         h('div', { className: 'rank-head' },
-            h('div', null, h('h3', { className: 'card-title' }, 'Peringkat Kerja Instansi'), h('p', { className: 'card-sub' }, 'Data resmi — peringkat instansi berdasarkan kinerja penanganan.')),
-            h('div', { className: 'rank-cols' }, ['Total Aduan', 'Penyelesaian', 'AVG respon'].map((c) => h('span', { key: c }, c)))),
+            h('div', null, h('h3', { className: 'card-title' }, 'Peringkat Kerja Instansi'), h('p', { className: 'card-sub' }, 'Data resmi peringkat instansi berdasarkan kinerja penanganan.')),
+            h('div', { className: 'rank-cols' }, ['Total Aduan', 'Penyelesaian', 'AVG respon', 'Indeks Kepuasan Masyarakat'].map((c) => h('span', { key: c }, c)))),
         h('ol', { className: 'rank-list' }, RANKING.map(([name, dept, ...v], i) => h('li', { key: name },
             h('b', { className: 'rank-no' }, i + 1),
             h('span', { className: 'rank-name' }, h('strong', null, name), h('small', null, dept)),
-            v.map((val) => h('span', { key: val }, val))))));
+            v.slice(0, 3).map((val, index) => h('span', { key: `${index}-${val}` }, val)),
+            h('span', { className: 'rank-satisfaction' }, v[3])))),
+        h('div', { className: 'rank-legend', 'aria-label': 'Keterangan indeks kepuasan masyarakat' },
+            h('span', null, '🙂 Mayoritas Masyarakat senang.'),
+            h('span', null, '🙁 Mayoritas Masyarakat kecewa.')));
 }
 
 function Categories() {
@@ -513,7 +595,7 @@ function BeforeAfterCard({ item, onOpen }) {
 }
 
 function BeforeAfterPhoto({ src, label, gps, by, before }) {
-    return h('div', { className: 'group relative overflow-hidden rounded-2xl border border-warm-800 bg-warm-950' },
+    return h('div', { className: 'group relative overflow-hidden rounded-2xl border border-warm-200 bg-warm-100' },
         h('div', { className: 'relative aspect-square w-full' },
             h('img', {
                 src, alt: `Kondisi ${label}`,
@@ -524,12 +606,12 @@ function BeforeAfterPhoto({ src, label, gps, by, before }) {
                 },
             }),
             h('div', {
-                className: `absolute left-3 top-3 rounded-lg border px-3 py-1 text-xs font-extrabold uppercase tracking-wider shadow-md ${before ? 'border-rose-700/80 bg-rose-950/90 text-rose-300' : 'border-emerald-700/80 bg-emerald-950/90 text-emerald-300'}`,
+                className: 'absolute left-3 top-3 rounded-lg border border-white/70 bg-warm-50/95 px-3 py-1 text-xs font-bold uppercase tracking-wider text-warm-800 shadow-sm',
             }, label),
-            h('div', { className: 'absolute inset-x-0 bottom-0 space-y-0.5 bg-gradient-to-t from-warm-950/90 via-warm-950/50 to-transparent p-3 text-[10px] text-warm-300' },
-                h('p', { className: 'flex items-center gap-1 font-mono text-warm-200' },
-                    h('i', { className: `fa-solid fa-location-crosshairs ${before ? 'text-amber-500' : 'text-emerald-400'}` }), h('span', null, gps)),
-                h('p', { className: 'text-warm-400' }, by))));
+            h('div', { className: 'absolute inset-x-0 bottom-0 space-y-0.5 bg-gradient-to-t from-[#231d19]/85 via-[#231d19]/45 to-transparent p-3 text-[10px] text-white/90' },
+                h('p', { className: 'flex items-center gap-1 font-mono' },
+                    h('i', { className: 'fa-solid fa-location-crosshairs text-amber-300' }), h('span', null, gps)),
+                h('p', { className: 'text-white/75' }, by))));
 }
 
 function BeforeAfterModal({ item, onClose }) {
@@ -548,78 +630,77 @@ function BeforeAfterModal({ item, onClose }) {
     }, [onClose]);
 
     const infoLabel = (label, value) => h('div', null,
-        h('span', { className: 'block text-[11px] text-warm-400' }, label),
-        h('strong', { className: 'font-semibold text-white' }, value));
+        h('span', { className: 'block text-[11px] text-warm-500' }, label),
+        h('strong', { className: 'font-semibold text-warm-900' }, value));
 
-    return h('div', { className: 'fixed inset-0 z-[100] flex items-center justify-center p-4 font-jakarta text-warm-100 antialiased sm:p-6' },
-        h('div', { className: 'animate-bg absolute inset-0 bg-warm-950/80 backdrop-blur-md', onClick: onClose }),
-        h('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': `Detail pengaduan ${item.tiket}`, className: 'animate-modal relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-warm-800 bg-warm-900 shadow-2xl' },
-            h('div', { className: 'sticky top-0 z-20 flex items-center justify-between border-b border-warm-800 bg-warm-900/90 px-6 py-4' },
+    return h('div', { className: 'fixed inset-0 z-[100] flex items-center justify-center p-4 font-jakarta text-warm-900 antialiased sm:p-6' },
+        h('div', { className: 'animate-bg absolute inset-0 bg-warm-900/45 backdrop-blur-sm', onClick: onClose }),
+        h('div', { role: 'dialog', 'aria-modal': 'true', 'aria-label': `Detail pengaduan ${item.tiket}`, className: 'animate-modal relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-warm-200 bg-[#fffdf9] shadow-2xl' },
+            h('div', { className: 'sticky top-0 z-20 flex items-center justify-between border-b border-warm-200 bg-[#fffdf9]/95 px-6 py-4' },
                 h('div', { className: 'flex items-center gap-3' },
-                    h('div', { className: 'flex h-8 w-8 items-center justify-center rounded-lg border border-amber-500/30 bg-amber-600/20 text-xs font-bold text-amber-500' },
+                    h('div', { className: 'flex h-8 w-8 items-center justify-center rounded-lg border border-amber-200 bg-amber-50 text-xs font-bold text-amber-800' },
                         h('i', { className: 'fa-solid fa-file-invoice' })),
                     h('div', null,
-                        h('h2', { className: 'text-sm font-extrabold tracking-tight text-white sm:text-base' }, 'Detail Transparansi Pengaduan'),
-                        h('span', { className: 'font-mono text-[11px] font-bold text-amber-500' }, `#${item.tiket}`))),
-                h('button', { type: 'button', autoFocus: true, onClick: onClose, className: 'flex h-8 w-8 items-center justify-center rounded-full bg-warm-800 text-sm text-warm-400 transition hover:bg-warm-700 hover:text-white', title: 'Tutup', 'aria-label': 'Tutup' },
+                        h('h2', { className: 'text-sm font-extrabold tracking-tight text-warm-900 sm:text-base' }, 'Detail Transparansi Pengaduan'),
+                        h('span', { className: 'font-mono text-[11px] font-bold text-amber-800' }, `#${item.tiket}`))),
+                h('button', { type: 'button', autoFocus: true, onClick: onClose, className: 'flex h-8 w-8 items-center justify-center rounded-full bg-warm-100 text-sm text-warm-600 transition hover:bg-warm-200 hover:text-warm-900', title: 'Tutup', 'aria-label': 'Tutup' },
                     h('i', { className: 'fa-solid fa-xmark' }))),
             h('div', { className: 'flex-1 space-y-6 overflow-y-auto p-6' },
-                h('div', { className: 'rounded-2xl border border-warm-800/80 bg-warm-950/80 p-4 sm:p-5' },
-                    h('div', { className: 'flex flex-wrap items-center justify-between gap-3 border-b border-warm-800/60 pb-3' },
+                h('div', { className: 'rounded-2xl border border-warm-200 bg-warm-50 p-4 sm:p-5' },
+                    h('div', { className: 'flex flex-wrap items-center justify-between gap-3 border-b border-warm-200 pb-3' },
                         h('div', { className: 'flex items-center gap-2' },
-                            h('span', { className: 'rounded-full border border-amber-500/30 bg-amber-600/15 px-3 py-1 text-xs font-semibold text-amber-400' }, item.kat),
-                            h('span', { className: 'text-xs font-medium text-warm-400' }, item.dinas)),
-                        h('span', { className: 'inline-flex items-center gap-1.5 rounded-full border border-emerald-700 bg-emerald-950 px-3 py-1 text-xs font-bold text-emerald-400 shadow-sm' },
-                            h('i', { className: 'fa-solid fa-circle-check text-xs' }), 'Selesai (Verified Completed)')),
+                            h('span', { className: 'rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800' }, item.kat),
+                            h('span', { className: 'text-xs font-medium text-warm-600' }, item.dinas)),
+                        h('span', { className: 'inline-flex items-center gap-1.5 rounded-full border border-warm-200 bg-white px-3 py-1 text-xs font-semibold text-warm-700' },
+                            h('i', { className: 'fa-solid fa-circle-check text-xs text-amber-700' }), 'Selesai')),
                     h('div', { className: 'grid grid-cols-2 gap-3 pt-3.5 text-xs sm:grid-cols-3' },
                         infoLabel('Tanggal Diajukan', baFormatDate(submitted, true)),
                         infoLabel('Tanggal Selesai', baFormatDate(completed, true)),
                         h('div', { className: 'col-span-2 sm:col-span-1' },
-                            h('span', { className: 'block text-[11px] text-warm-400' }, 'Durasi SLA Penanganan'),
-                            h('strong', { className: 'flex items-center gap-1 font-bold text-amber-400' },
+                            h('span', { className: 'block text-[11px] text-warm-500' }, 'Durasi SLA Penanganan'),
+                            h('strong', { className: 'flex items-center gap-1 font-bold text-amber-800' },
                                 h('i', { className: 'fa-regular fa-clock text-[11px]' }), `${item.hari} Hari (${item.hari * 24} Jam)`)))),
                 h('div', null,
-                    h('h3', { className: 'mb-2.5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-warm-400' },
-                        h('i', { className: 'fa-solid fa-images text-xs text-amber-500' }), 'Dokumentasi Komparasi Visual'),
+                    h('h3', { className: 'mb-2.5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-warm-600' },
+                        h('i', { className: 'fa-solid fa-images text-xs text-amber-700' }), 'Dokumentasi Komparasi Visual'),
                     h('div', { className: 'grid grid-cols-1 gap-4 sm:grid-cols-2' },
                         h(BeforeAfterPhoto, { src: item.img[0], label: 'Sebelum', before: true, gps: item.gps, by: `Foto Pelapor • ${baFormatDate(submitted)}, 09:15 WIB` }),
                         h(BeforeAfterPhoto, { src: item.img[1], label: 'Sesudah', gps: item.gps, by: `Petugas Lapangan • ${baFormatDate(completed)}, 14:30 WIB` }))),
-                h('div', { className: 'space-y-4 rounded-2xl border border-warm-800 bg-warm-950/60 p-5' },
-                    h('h3', { className: 'flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-warm-400' },
-                        h('i', { className: 'fa-solid fa-circle-info text-xs text-amber-500' }), 'Informasi Keluhan Warga'),
+                h('div', { className: 'space-y-4 rounded-2xl border border-warm-200 bg-warm-50/80 p-5' },
+                    h('h3', { className: 'flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-warm-600' },
+                        h('i', { className: 'fa-solid fa-circle-info text-xs text-amber-700' }), 'Informasi Keluhan Warga'),
                     h('div', null,
-                        h('h4', { className: 'mb-1.5 text-base font-bold text-white' }, item.judul),
-                        h('p', { className: 'rounded-xl border border-warm-800/60 bg-warm-900/80 p-3.5 text-xs leading-relaxed text-warm-300 sm:text-sm' }, `“${item.keluhan}”`)),
+                        h('h4', { className: 'mb-1.5 text-base font-bold text-warm-900' }, item.judul),
+                        h('p', { className: 'rounded-xl border border-warm-200 bg-white p-3.5 text-xs leading-relaxed text-warm-700 sm:text-sm' }, `“${item.keluhan}”`)),
                     h('div', { className: 'grid grid-cols-1 gap-3 pt-2 text-xs sm:grid-cols-2' },
                         h('div', { className: 'flex items-start gap-2.5' },
-                            h('i', { className: 'fa-solid fa-location-dot mt-0.5 shrink-0 text-amber-500' }),
-                            h('div', null, h('span', { className: 'block text-[11px] text-warm-400' }, 'Lokasi Kejadian'),
-                                h('span', { className: 'block font-medium leading-tight text-warm-200' }, item.alamat))),
+                            h('i', { className: 'fa-solid fa-location-dot mt-0.5 shrink-0 text-amber-700' }),
+                            h('div', null, h('span', { className: 'block text-[11px] text-warm-500' }, 'Lokasi Kejadian'),
+                                h('span', { className: 'block font-medium leading-tight text-warm-800' }, item.alamat))),
                         h('div', { className: 'flex items-start gap-2.5' },
-                            h('i', { className: 'fa-solid fa-user-shield mt-0.5 shrink-0 text-amber-500' }),
-                            h('div', null, h('span', { className: 'block text-[11px] text-warm-400' }, 'Identitas Pelapor'),
-                                h('span', { className: 'inline-flex items-center gap-1.5 font-medium text-warm-200' }, item.pelapor,
-                                    h('span', { className: 'rounded-full border border-emerald-800 bg-emerald-950 px-2 text-[10px] text-emerald-400' }, 'Terverifikasi')))))),
-                h('div', { className: 'space-y-4 rounded-2xl border border-warm-800 bg-warm-950/60 p-5' },
-                    h('h3', { className: 'flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500' },
-                        h('i', { className: 'fa-solid fa-sack-dollar text-xs text-amber-500' }), 'Eksekusi Lapangan & Transparansi Anggaran'),
+                            h('i', { className: 'fa-solid fa-user mt-0.5 shrink-0 text-amber-700' }),
+                            h('div', null, h('span', { className: 'block text-[11px] text-warm-500' }, 'Identitas Pelapor'),
+                                h('span', { className: 'font-medium text-warm-800' }, item.pelapor))))),
+                h('div', { className: 'space-y-4 rounded-2xl border border-warm-200 bg-warm-50/80 p-5' },
+                    h('h3', { className: 'flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-800' },
+                        h('i', { className: 'fa-solid fa-sack-dollar text-xs text-amber-700' }), 'Eksekusi Lapangan & Transparansi Anggaran'),
                     h('div', { className: 'grid grid-cols-1 gap-3 text-xs sm:grid-cols-2' },
-                        h('div', { className: 'rounded-xl border border-warm-800/80 bg-warm-900/90 p-3.5' },
-                            h('span', { className: 'block text-[11px] text-warm-400' }, 'Sumber Dana Anggaran'),
-                            h('strong', { className: 'font-semibold text-white' }, `APBD DPA ${item.dinas} 2026`),
-                            h('span', { className: 'mt-0.5 block text-[11px] text-warm-400' }, '(Dana Pemeliharaan Rutin)')),
-                        h('div', { className: 'rounded-xl border border-warm-800/80 bg-warm-900/90 p-3.5' },
-                            h('span', { className: 'block text-[11px] text-warm-400' }, 'Realisasi Pengeluaran Anggaran'),
-                            h('strong', { className: 'block text-base font-extrabold text-amber-400' }, item.biaya))),
+                        h('div', { className: 'rounded-xl border border-warm-200 bg-white p-3.5' },
+                            h('span', { className: 'block text-[11px] text-warm-500' }, 'Sumber Dana Anggaran'),
+                            h('strong', { className: 'font-semibold text-warm-900' }, `APBD DPA ${item.dinas} 2026`),
+                            h('span', { className: 'mt-0.5 block text-[11px] text-warm-500' }, '(Dana Pemeliharaan Rutin)')),
+                        h('div', { className: 'rounded-xl border border-warm-200 bg-white p-3.5' },
+                            h('span', { className: 'block text-[11px] text-warm-500' }, 'Realisasi Pengeluaran Anggaran'),
+                            h('strong', { className: 'block text-base font-extrabold text-amber-800' }, item.biaya))),
                     h('div', { className: 'space-y-1.5 text-xs' },
-                        h('span', { className: 'block font-semibold text-warm-400' }, 'Catatan Penyelesaian Petugas Lapangan:'),
-                        h('p', { className: 'rounded-xl border border-warm-800/60 bg-warm-900/80 p-3.5 leading-relaxed text-warm-300' }, item.catatan)),
-                    h('div', { className: 'flex items-center gap-2 pt-1 text-xs text-warm-300' },
-                        h('i', { className: 'fa-solid fa-people-group text-amber-500' }),
-                        h('span', null, 'Tim Pelaksana: ', h('strong', { className: 'text-white' }, `Tim Reaksi Cepat Regu ${item.regu} - ${item.dinas}`))))),
-            h('div', { className: 'flex items-center justify-between border-t border-warm-800 bg-warm-950 px-6 py-3.5 text-xs text-warm-400' },
+                        h('span', { className: 'block font-semibold text-warm-600' }, 'Catatan Penyelesaian Petugas Lapangan:'),
+                        h('p', { className: 'rounded-xl border border-warm-200 bg-white p-3.5 leading-relaxed text-warm-700' }, item.catatan)),
+                    h('div', { className: 'flex items-center gap-2 pt-1 text-xs text-warm-700' },
+                        h('i', { className: 'fa-solid fa-people-group text-amber-700' }),
+                        h('span', null, 'Tim Pelaksana: ', h('strong', { className: 'text-warm-900' }, `Tim Reaksi Cepat Regu ${item.regu} - ${item.dinas}`))))),
+            h('div', { className: 'flex items-center justify-between border-t border-warm-200 bg-warm-50 px-6 py-3.5 text-xs text-warm-600' },
                 h('span', { className: 'flex items-center gap-1.5' },
-                    h('i', { className: 'fa-solid fa-shield-halved text-xs text-emerald-400' }), 'Data Resmi Terverifikasi TransparansiWarga'),
+                    h('i', { className: 'fa-solid fa-shield-halved text-xs text-amber-700' }), 'Data Resmi Terverifikasi AksiWarga'),
                 h('button', { type: 'button', onClick: onClose, className: 'rounded-xl bg-warm-800 px-4 py-2 text-xs font-semibold text-white transition hover:bg-warm-700' }, 'Tutup'))));
 }
 
@@ -658,8 +739,7 @@ function BeforeAfterPage() {
                 h('div', { className: 'text-center' },
                     h(BeforeAfterEyebrow, null, 'Bukti Nyata Perubahan'),
                     h(BeforeAfterHeading, null, 'Sebelum & Sesudah'),
-                    h(BeforeAfterSub, null, 'Dokumentasi visual perubahan nyata dari setiap pengaduan warga yang telah diselesaikan oleh instansi terkait.'),
-                    h('p', { className: 'mt-4 text-xs text-[#6f5f50]' }, '* Visual bersifat ilustratif sebagai representasi kondisi lapangan')),
+                    h(BeforeAfterSub, null, 'Dokumentasi visual perubahan nyata dari setiap pengaduan warga yang telah diselesaikan oleh instansi terkait.'),),
                 h('div', { className: 'mb-3 mt-7 flex justify-end' },
                     h('a', { href: BEFORE_AFTER_ALL_URL, className: 'text-[13px] font-bold text-[#2f1d10] transition hover:text-[#c4833f]' }, 'Lihat Semua')),
                 h('div', { className: 'grid items-start gap-6 md:grid-cols-2 lg:grid-cols-3' },
@@ -673,7 +753,7 @@ function BeforeAfterPage() {
                     h('i', { className: 'fa-solid fa-magnifying-glass ml-5 mr-3 text-sm text-[#b3a698]' }),
                     h('input', {
                         value: ticket, onChange: (event) => { setTicket(event.target.value); setMessage(''); },
-                        'aria-label': 'Nomor tiket', placeholder: 'Nomor tiket, misal: #TRW-2026-889',
+                        'aria-label': 'Nomor tiket', placeholder: 'Masukan Nomor Tiket',
                         className: 'h-14 min-w-0 flex-1 bg-transparent text-sm text-[#2f1d10] outline-none placeholder:text-[#b9ad9f]',
                     }),
                     h('button', { type: 'submit', className: 'h-14 shrink-0 bg-[#c4833f] px-8 text-sm font-semibold text-white transition hover:bg-[#ad6f2f]' }, 'Cek Status')),

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panduan Warga & FAQ - AksiWarga (PublicPulse 2026)</title>
+    <title>Panduan Warga & FAQ - AksiWarga</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome CDN -->
@@ -56,6 +56,23 @@
             opacity: 1;
             transition: max-height 0.35s ease-in-out, opacity 0.3s ease-in-out;
         }
+        html[data-theme="dark"] body { background-color: #171411 !important; color: #f5eee2 !important; }
+        html[data-theme="dark"] header, html[data-theme="dark"] footer, html[data-theme="dark"] .bg-white {
+            background-color: #24201b !important;
+        }
+        html[data-theme="dark"] .bg-warm-50 { background-color: #1c1915 !important; }
+        html[data-theme="dark"] .bg-warm-100 { background-color: #302920 !important; }
+        html[data-theme="dark"] .text-warm-900, html[data-theme="dark"] .text-warm-800,
+        html[data-theme="dark"] .text-warm-700 { color: #f5eee2 !important; }
+        html[data-theme="dark"] .text-warm-600, html[data-theme="dark"] .text-warm-500,
+        html[data-theme="dark"] .text-warm-400 { color: #b6a894 !important; }
+        html[data-theme="dark"] .border-warm-200, html[data-theme="dark"] .border-warm-300 {
+            border-color: #494034 !important;
+        }
+        html[data-theme="dark"] input { color-scheme: dark; }
+        html[data-theme="dark"] .bg-emerald-50 { background-color: #1e3025 !important; }
+        html[data-theme="dark"] .bg-rose-50 { background-color: #392323 !important; }
+        @media (max-width: 420px) { .theme-label { display: none; } }
     </style>
 </head>
 <body class="bg-warm-50 text-warm-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-warm-900">
@@ -66,17 +83,20 @@
             
             <!-- BRAND LOGO -->
             <a href="index.html" class="flex items-center gap-3 group">
-                <div class="w-9 h-9 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 shadow-sm transition duration-200">
-                    <i class="fa-solid fa-scale-balanced text-lg"></i>
+                <div>
+                    <img src="../asset/logo web.jpg" alt="AksiWarga Logo" class="w-8 h-8 rounded">
                 </div>
                 <div>
                     <span class="text-warm-900 font-bold text-base tracking-tight block">AksiWarga</span>
-                    <span class="text-amber-700 text-[10px] font-semibold block">PublicPulse 2026</span>
                 </div>
             </a>
 
             <!-- SHORTCUT MENU DROPDOWN -->
-            <div class="relative flex items-center gap-3">
+            <div class="relative flex items-center gap-2 sm:gap-3">
+                <button id="themeToggle" type="button" aria-label="Aktifkan mode gelap" aria-pressed="false" class="h-10 rounded-2xl bg-warm-50 hover:bg-warm-100 border border-warm-200 flex items-center justify-center gap-2 px-3 text-warm-700 hover:text-amber-800 transition">
+                    <i id="themeToggleIcon" class="fa-solid fa-moon" aria-hidden="true"></i>
+                    <span id="themeToggleLabel" class="theme-label text-xs font-semibold">Mode Gelap</span>
+                </button>
                 <button onclick="toggleDropdown()" class="w-10 h-10 rounded-2xl bg-warm-50 hover:bg-warm-100 border border-warm-200 flex items-center justify-center text-warm-700 hover:text-amber-800 transition">
                     <i class="fa-solid fa-grip-vertical text-base"></i>
                 </button>
@@ -86,7 +106,7 @@
                     <div class="px-3 py-2 border-b border-warm-200 mb-1">
                         <span class="text-[10px] font-bold text-amber-700">Shortcut Akses Cepat</span>
                     </div>
-                    <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-warm-100 text-xs text-warm-800 hover:text-warm-900 transition group">
+                    <button type="button" onclick="handleProtectedShortcut(event, 'report')" class="w-full text-left flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-warm-100 text-xs text-warm-800 hover:text-warm-900 transition group">
                         <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center group-hover:bg-amber-700 group-hover:text-white transition">
                             <i class="fa-solid fa-plus text-xs"></i>
                         </div>
@@ -94,8 +114,8 @@
                             <span class="font-bold block">Buat Laporan</span>
                             <span class="text-[10px] text-warm-600">Kirim aduan infrastruktur baru</span>
                         </div>
-                    </a>
-                    <a href="rekam-jejak-master.html" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-warm-100 text-xs text-warm-800 hover:text-warm-900 transition group">
+                    </button>
+                    <button type="button" onclick="handleProtectedShortcut(event, 'check')" class="w-full text-left flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-warm-100 text-xs text-warm-800 hover:text-warm-900 transition group">
                         <div class="w-7 h-7 rounded-lg bg-warm-100 text-warm-700 flex items-center justify-center group-hover:bg-amber-100 group-hover:text-amber-800 transition">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
                         </div>
@@ -103,8 +123,8 @@
                             <span class="font-bold block">Cek Laporan</span>
                             <span class="text-[10px] text-warm-600">Lacak status tiket pengaduan</span>
                         </div>
-                    </a>
-                    <a href="transparansi-anggaran.html" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-warm-100 text-xs text-warm-800 hover:text-warm-900 transition group">
+                    </button>
+                    <a href="transparansi_anggaran_apbd.html" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-warm-100 text-xs text-warm-800 hover:text-warm-900 transition group">
                         <div class="w-7 h-7 rounded-lg bg-warm-100 text-warm-700 flex items-center justify-center group-hover:bg-amber-100 group-hover:text-amber-800 transition">
                             <i class="fa-solid fa-wallet text-xs"></i>
                         </div>
@@ -113,7 +133,7 @@
                             <span class="text-[10px] text-warm-600">Realisasi APBD &amp; Proyek</span>
                         </div>
                     </a>
-                    <a href="faq-panduan-warga.html" class="flex items-center gap-3 px-3 py-2 rounded-xl bg-amber-100 border border-amber-200 text-xs text-amber-700 font-bold transition">
+                    <a href="faq.html" class="flex items-center gap-3 px-3 py-2 rounded-xl bg-amber-100 border border-amber-200 text-xs text-amber-700 font-bold transition">
                         <div class="w-7 h-7 rounded-lg bg-amber-700 text-white flex items-center justify-center font-bold">
                             <i class="fa-solid fa-circle-question text-xs"></i>
                         </div>
@@ -428,10 +448,24 @@
 
     </main>
 
+    <div id="loginPrompt" class="fixed inset-0 z-[60] hidden items-center justify-center bg-warm-900/50 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="loginPromptTitle">
+        <div class="w-full max-w-sm rounded-3xl border border-warm-200 bg-white p-6 text-center shadow-xl animate-fade-in">
+            <div class="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-amber-50 text-amber-700">
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            </div>
+            <h2 id="loginPromptTitle" class="text-lg font-bold text-warm-900">Silahkan Login Terlebih dahulu</h2>
+            <p class="mt-2 text-sm text-warm-600">Masuk ke akun AksiWarga untuk melanjutkan.</p>
+            <div class="mt-6 flex justify-center gap-3">
+                <button type="button" onclick="closeLoginPrompt()" class="rounded-xl border border-warm-200 bg-warm-50 px-4 py-2 text-sm font-semibold text-warm-700 transition hover:bg-warm-100">Batal</button>
+                <a href="login.html" class="rounded-xl bg-amber-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-amber-800">Sign in</a>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="bg-white border-t border-warm-200 py-6 px-4 text-center text-warm-600 text-xs mt-12">
         <div class="max-w-4xl mx-auto space-y-1.5">
-            <p class="font-bold text-amber-700">AksiWarga &bull; PublicPulse 2026</p>
+            <p class="font-bold text-amber-700">AksiWarga</p>
             <p class="text-warm-600 text-[11px]">Pusat Informasi &amp; Panduan Warga untuk Transparansi Pengaduan Publik.</p>
             <p class="text-warm-500 text-[10px] pt-2 border-t border-warm-200">&copy; 2026 AksiWarga. Hak cipta dilindungi undang-undang.</p>
         </div>
@@ -439,11 +473,73 @@
 
     <!-- JAVASCRIPT CONTROLLER FOR ACCORDION & SEARCH -->
     <script>
+        let authRequest = null;
+        let isDarkTheme = localStorage.getItem('aksiwarga-theme') === 'dark';
+
+        function applyTheme() {
+            document.documentElement.dataset.theme = isDarkTheme ? 'dark' : 'light';
+            const toggle = document.getElementById('themeToggle');
+            toggle.setAttribute('aria-pressed', String(isDarkTheme));
+            toggle.setAttribute('aria-label', isDarkTheme ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+            document.getElementById('themeToggleIcon').className = `fa-solid ${isDarkTheme ? 'fa-sun' : 'fa-moon'}`;
+            document.getElementById('themeToggleLabel').textContent = isDarkTheme ? 'Mode Terang' : 'Mode Gelap';
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            isDarkTheme = !isDarkTheme;
+            localStorage.setItem('aksiwarga-theme', isDarkTheme ? 'dark' : 'light');
+            applyTheme();
+        });
+        applyTheme();
+
         // DROPDOWN TOGGLE LOGIC
         function toggleDropdown() {
             const menu = document.getElementById('shortcutMenu');
             menu.classList.toggle('hidden');
         }
+
+        async function handleProtectedShortcut(event, action) {
+            event.preventDefault();
+            document.getElementById('shortcutMenu').classList.add('hidden');
+            try {
+                if (window.location.protocol === 'file:') {
+                    const prompt = document.getElementById('loginPrompt');
+                    prompt.classList.remove('hidden');
+                    prompt.classList.add('flex');
+                    return;
+                }
+                if (!authRequest) {
+                    authRequest = fetch('/api/auth/me').then(async (response) => {
+                        if (!response.ok) throw new Error(`Pemeriksaan sesi gagal (${response.status}).`);
+                        const result = await response.json();
+                        return result.user || null;
+                    }).catch((error) => {
+                        authRequest = null;
+                        throw error;
+                    });
+                }
+                const user = await authRequest;
+                if (!user) {
+                    const prompt = document.getElementById('loginPrompt');
+                    prompt.classList.remove('hidden');
+                    prompt.classList.add('flex');
+                    return;
+                }
+                window.location.href = action === 'report' ? 'form_pengaduan.html' : 'user_profile.html';
+            } catch (error) {
+                console.error('Gagal memeriksa status login:', error);
+                window.alert('Status login tidak dapat diperiksa. Periksa koneksi, lalu coba lagi.');
+            }
+        }
+
+        function closeLoginPrompt() {
+            const prompt = document.getElementById('loginPrompt');
+            prompt.classList.add('hidden');
+            prompt.classList.remove('flex');
+        }
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeLoginPrompt();
+        });
 
         // ACCORDION TOGGLE
         function toggleFAQ(btn) {
@@ -498,6 +594,8 @@
 
         // CLOSE DROPDOWN ON OUTSIDE CLICK
         window.onclick = function(e) {
+            const loginPrompt = document.getElementById('loginPrompt');
+            if (e.target === loginPrompt) closeLoginPrompt();
             const menu = document.getElementById('shortcutMenu');
             const btn = e.target.closest('button');
             if (!btn || (btn.getAttribute('onclick') !== 'toggleDropdown()')) {

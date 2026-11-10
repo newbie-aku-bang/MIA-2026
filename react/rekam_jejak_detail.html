@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekam Jejak Pengaduan - TransparansiWarga (PublicPulse 2026)</title>
+    <title>Rekam Jejak Pengaduan - AksiWarga</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome CDN -->
@@ -52,6 +52,20 @@
         .animate-modal {
             animation: modalScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        html[data-theme="dark"] body { background-color: #171411 !important; color: #f5eee2 !important; }
+        html[data-theme="dark"] header, html[data-theme="dark"] footer, html[data-theme="dark"] .bg-white {
+            background-color: #24201b !important;
+        }
+        html[data-theme="dark"] .bg-warm-50 { background-color: #1c1915 !important; }
+        html[data-theme="dark"] .bg-warm-100 { background-color: #302920 !important; }
+        html[data-theme="dark"] .text-warm-900, html[data-theme="dark"] .text-warm-800,
+        html[data-theme="dark"] .text-warm-700 { color: #f5eee2 !important; }
+        html[data-theme="dark"] .text-warm-600, html[data-theme="dark"] .text-warm-500,
+        html[data-theme="dark"] .text-warm-400 { color: #b6a894 !important; }
+        html[data-theme="dark"] .border-warm-200, html[data-theme="dark"] .border-warm-300 {
+            border-color: #494034 !important;
+        }
+        html[data-theme="dark"] select { color-scheme: dark; }
     </style>
 </head>
 <body class="bg-warm-50 text-warm-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-200 selection:text-warm-900">
@@ -60,16 +74,17 @@
     <header class="bg-white border-b border-warm-200 sticky top-0 z-40 backdrop-blur-md bg-warm-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3 group">
-                <div class="w-9 h-9 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 shadow-sm transition duration-200">
-                    <i class="fa-solid fa-scale-balanced text-lg"></i>
-                </div>
+                <div><img src="../asset/logo web.jpg" alt="AksiWarga Logo" class="w-10 h-10 border border-warm-200 rounded-lg"></div>
                 <div>
-                    <span class="text-warm-900 font-bold text-base tracking-tight block">TransparansiWarga</span>
-                    <span class="text-amber-700 text-[10px] font-semibold block">PublicPulse 2026</span>
+                    <span class="text-warm-900 font-bold text-base tracking-tight block">AksiWarga</span>
                 </div>
             </a>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="themeToggle" type="button" aria-label="Aktifkan mode gelap" aria-pressed="false" class="inline-flex items-center gap-2 rounded-full border border-warm-200 bg-warm-50 px-3 py-2 text-xs font-semibold text-warm-700 transition hover:border-amber-600">
+                    <i id="themeToggleIcon" class="fa-solid fa-moon" aria-hidden="true"></i>
+                    <span id="themeToggleLabel">Mode Gelap</span>
+                </button>
                 <a href="index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-warm-700 hover:text-amber-800 transition-colors bg-warm-50 px-3.5 py-2 rounded-xl border border-warm-200">
                     <span>Kembali ke Beranda</span>
                 </a>
@@ -101,16 +116,16 @@
                         Ringkasan Utuh
                     </button>
                     <button onclick="switchView('total', this)" class="nav-tab text-warm-600 hover:text-warm-900 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-                        Total Masuk (246)
+                        Total Masuk
                     </button>
                     <button onclick="switchView('proses', this)" class="nav-tab text-warm-600 hover:text-warm-900 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-                        Dalam Proses (67)
+                        Dalam Proses
                     </button>
                     <button onclick="switchView('selesai', this)" class="nav-tab text-warm-600 hover:text-warm-900 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-                        Diselesaikan (232)
+                        Diselesaikan
                     </button>
                     <button onclick="switchView('belum', this)" class="nav-tab text-warm-600 hover:text-warm-900 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-                        Belum Ditanggapi (145)
+                        Belum Ditanggapi
                     </button>
                 </div>
             </div>
@@ -126,9 +141,9 @@
     <!-- FOOTER -->
     <footer class="bg-white border-t border-warm-200 py-6 px-4 text-center text-warm-600 text-xs mt-12">
         <div class="max-w-4xl mx-auto space-y-1.5">
-            <p class="font-bold text-amber-700">TransparansiWarga &bull; PublicPulse 2026</p>
+            <p class="font-bold text-amber-700">AksiWarga</p>
             <p class="text-warm-600 text-[11px]">Sistem Rekam Jejak Pengaduan Publik yang Transparan, Cepat, dan Akuntabel.</p>
-            <p class="text-warm-500 text-[10px] pt-2 border-t border-warm-200">&copy; 2026 TransparansiWarga. Hak cipta dilindungi.</p>
+            <p class="text-warm-500 text-[10px] pt-2 border-t border-warm-200">&copy; 2026 AksiWarga. Hak cipta dilindungi.</p>
         </div>
     </footer>
 
@@ -232,6 +247,26 @@
 
     <!-- JAVASCRIPT CONTROLLER DATA & VIEW RENDERER -->
     <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleIcon = document.getElementById('themeToggleIcon');
+        const themeToggleLabel = document.getElementById('themeToggleLabel');
+        let isDarkTheme = localStorage.getItem('aksiwarga-theme') === 'dark';
+
+        function applyTheme() {
+            document.documentElement.dataset.theme = isDarkTheme ? 'dark' : 'light';
+            themeToggle.setAttribute('aria-pressed', String(isDarkTheme));
+            themeToggle.setAttribute('aria-label', isDarkTheme ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+            themeToggleIcon.className = `fa-solid ${isDarkTheme ? 'fa-sun' : 'fa-moon'}`;
+            themeToggleLabel.textContent = isDarkTheme ? 'Mode Terang' : 'Mode Gelap';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            isDarkTheme = !isDarkTheme;
+            localStorage.setItem('aksiwarga-theme', isDarkTheme ? 'dark' : 'light');
+            applyTheme();
+        });
+        applyTheme();
+
         // DATA DUMMY REKAM JEJAK
         const sampleReports = {
             total: [
@@ -268,6 +303,22 @@
             ]
         };
 
+        const reportsPerPage = 4;
+        const archivedReports = {};
+        Object.entries(sampleReports).forEach(([groupKey, originals], groupIndex) => {
+            const reports = [...originals];
+            while (reports.length < reportsPerPage * 5) {
+                const archiveIndex = reports.length + 1;
+                const source = originals[reports.length % originals.length];
+                reports.push({
+                    ...source,
+                    id: `#TW-2026-${String(2000 + groupIndex * 100 + archiveIndex).padStart(4, '0')}`,
+                    title: `${source.title} (Arsip ${archiveIndex})`
+                });
+            }
+            archivedReports[groupKey] = reports;
+        });
+
         // RENDER CARD HTML HELPER
         function generateCardHTML(item) {
             const imageBlock = item.image 
@@ -301,7 +352,7 @@
         }
 
         // SWITCH VIEW CONTROLLER
-        function switchView(tabKey, btn) {
+        function switchView(tabKey, btn, page = 1) {
             document.querySelectorAll('.nav-tab').forEach(b => {
                 b.className = "nav-tab text-warm-600 hover:text-warm-900 px-3.5 py-2 rounded-xl text-xs font-semibold transition";
             });
@@ -324,7 +375,7 @@
                                 </div>
                             </div>
                             <button onclick="switchView('total', document.querySelectorAll('.nav-tab')[1])" class="text-amber-700 hover:text-amber-800 font-bold text-xs flex items-center gap-1 bg-white hover:bg-warm-100 px-3.5 py-1.5 rounded-xl border border-warm-200 transition">
-                                <span>Lihat Semua (246 Card)</span>
+                                <span>Lihat Semua</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -343,7 +394,7 @@
                                 </div>
                             </div>
                             <button onclick="switchView('proses', document.querySelectorAll('.nav-tab')[2])" class="text-amber-700 hover:text-amber-800 font-bold text-xs flex items-center gap-1 bg-white hover:bg-warm-100 px-3.5 py-1.5 rounded-xl border border-warm-200 transition">
-                                <span>Lihat Semua (67 Card)</span>
+                                <span>Lihat Semua</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -362,7 +413,7 @@
                                 </div>
                             </div>
                             <button onclick="switchView('selesai', document.querySelectorAll('.nav-tab')[3])" class="text-emerald-700 hover:text-emerald-800 font-bold text-xs flex items-center gap-1 bg-white hover:bg-warm-100 px-3.5 py-1.5 rounded-xl border border-warm-200 transition">
-                                <span>Lihat Semua (232 Card)</span>
+                                <span>Lihat Semua</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -381,7 +432,7 @@
                                 </div>
                             </div>
                             <button onclick="switchView('belum', document.querySelectorAll('.nav-tab')[4])" class="text-rose-700 hover:text-rose-800 font-bold text-xs flex items-center gap-1 bg-white hover:bg-warm-100 px-3.5 py-1.5 rounded-xl border border-warm-200 transition">
-                                <span>Lihat Semua (145 Card)</span>
+                                <span>Lihat Semua</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -392,20 +443,19 @@
             } else {
                 // RENDER FULL LIST VIEW DEMO
                 const titles = {
-                    total: { title: 'Semua Laporan Masuk (Demo 246 Kartu)', badge: 'Total 1,405 Aduan Kota', key: 'total' },
-                    proses: { title: 'Laporan Dalam Proses (Demo 67 Kartu)', badge: 'Sedang Dikerjakan Dinas', key: 'proses' },
-                    selesai: { title: 'Laporan Berhasil Diselesaikan (Demo 232 Kartu)', badge: 'Terbukti Tuntas 100%', key: 'selesai' },
-                    belum: { title: 'Laporan Belum Ditanggapi (Demo 145 Kartu)', badge: 'Menunggu Verifikasi', key: 'belum' }
+                    total: { title: 'Semua Laporan Masuk', badge: 'Total 1,405 Aduan Kota', key: 'total' },
+                    proses: { title: 'Laporan Dalam Proses', badge: 'Sedang Dikerjakan Dinas', key: 'proses' },
+                    selesai: { title: 'Laporan Berhasil Diselesaikan', badge: 'Terbukti Tuntas 100%', key: 'selesai' },
+                    belum: { title: 'Laporan Belum Ditanggapi', badge: 'Menunggu Verifikasi', key: 'belum' }
                 };
 
                 const current = titles[tabKey];
-                const items = sampleReports[current.key];
-                
-                // Repeat items to simulate large dataset preview cleanly
-                let fullList = [];
-                for(let i=0; i<3; i++) {
-                    fullList = fullList.concat(items);
-                }
+                const items = archivedReports[current.key];
+                const pageCount = Math.ceil(items.length / reportsPerPage);
+                const currentPage = Math.min(Math.max(page, 1), pageCount);
+                const pageItems = items.slice((currentPage - 1) * reportsPerPage, currentPage * reportsPerPage);
+                const tabIndex = Array.from(document.querySelectorAll('.nav-tab')).indexOf(btn);
+                const paginationButtonClass = 'min-w-[36px] px-3 py-1.5 rounded-lg border border-warm-200 transition';
 
                 container.innerHTML = `
                     <section class="space-y-6">
@@ -420,18 +470,19 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                            ${fullList.map(item => generateCardHTML(item)).join('')}
+                            ${pageItems.map(item => generateCardHTML(item)).join('')}
                         </div>
 
-                        <!-- PAGINATION SIMULATION BAR -->
-                        <div class="flex items-center justify-between bg-white border border-warm-200 p-4 rounded-2xl text-xs text-warm-600 mt-8">
-                            <span>Menampilkan 1-18 dari daftar laporan</span>
-                            <div class="flex items-center gap-1.5">
-                                <button class="px-3 py-1.5 rounded-lg bg-warm-50 border border-warm-200 text-warm-500 cursor-not-allowed">Sebelunya</button>
-                                <button class="px-3 py-1.5 rounded-lg bg-amber-700 text-white font-bold">1</button>
-                                <button class="px-3 py-1.5 rounded-lg bg-warm-50 border border-warm-200 hover:text-warm-900">2</button>
-                                <button class="px-3 py-1.5 rounded-lg bg-warm-50 border border-warm-200 hover:text-warm-900">3</button>
-                                <button class="px-3 py-1.5 rounded-lg bg-warm-50 border border-warm-200 hover:text-warm-900">Berikutnya</button>
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white border border-warm-200 p-4 rounded-2xl text-xs text-warm-600 mt-8">
+                            <span>Halaman ${currentPage} dari ${pageCount}</span>
+                            <div class="flex flex-wrap items-center justify-center gap-1.5">
+                                <button type="button" onclick="switchView('${tabKey}', document.querySelectorAll('.nav-tab')[${tabIndex}], ${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="${paginationButtonClass} ${currentPage === 1 ? 'bg-warm-50 text-warm-400 cursor-not-allowed' : 'bg-warm-50 hover:text-warm-900'}">Sebelumnya</button>
+                                ${Array.from({ length: pageCount }, (_, index) => {
+                                    const pageNumber = index + 1;
+                                    const activeClass = pageNumber === currentPage ? 'bg-amber-700 text-white border-amber-700 font-bold' : 'bg-warm-50 hover:text-warm-900';
+                                    return `<button type="button" onclick="switchView('${tabKey}', document.querySelectorAll('.nav-tab')[${tabIndex}], ${pageNumber})" aria-label="Halaman ${pageNumber}" ${pageNumber === currentPage ? 'aria-current="page"' : ''} class="${paginationButtonClass} ${activeClass}">${pageNumber}</button>`;
+                                }).join('')}
+                                <button type="button" onclick="switchView('${tabKey}', document.querySelectorAll('.nav-tab')[${tabIndex}], ${currentPage + 1})" ${currentPage === pageCount ? 'disabled' : ''} class="${paginationButtonClass} ${currentPage === pageCount ? 'bg-warm-50 text-warm-400 cursor-not-allowed' : 'bg-warm-50 hover:text-warm-900'}">Berikutnya</button>
                             </div>
                         </div>
                     </section>

@@ -154,7 +154,7 @@
       const side = size.w > 820 ? PANEL : 0, vis = (size.w - side) / size.w, b = f.bbox;
       const w = clamp(Math.max(((b[2] - b[0]) * 2.5) / vis, ((b[3] - b[1]) * 2.5) / asp), 0.9, 70);
       flyTo({ cx: (b[0] + b[2]) / 2 - ((side / 2) / size.w) * w, cy: (b[1] + b[3]) / 2, w });
-    }, [selected, selectionVersion]);
+    }, [selected, selectionVersion, size.w, size.h]);
 
     // Pan: tahan klik kiri lalu geser.
     const onDown = (e) => {
@@ -286,7 +286,9 @@
   }
 
   function App() {
-    const [sel, setSel] = useState(null), [cmp, setCmp] = useState(false);
+    const requestedRegion = new URLSearchParams(window.location.search).get('wilayah');
+    const initialRegion = GEO.regions.some((region) => region.code === requestedRegion) ? requestedRegion : null;
+    const [sel, setSel] = useState(initialRegion), [cmp, setCmp] = useState(false);
     const [selectingCompare, setSelectingCompare] = useState(false), [compareCodes, setCompareCodes] = useState([]), [compareNotice, setCompareNotice] = useState('');
     const [theme, setTheme] = useState('dark'), [selectionVersion, setSelectionVersion] = useState(0), [homeRequest, setHomeRequest] = useState(0);
     const features = useMemo(() => C.topologyToFeatures(GEO.topology), []);
@@ -341,7 +343,9 @@
     const selectedRows = compareCodes.map((code) => ds.rows.get(code)).filter(Boolean);
     return h('div', { className: `app${theme === 'light' ? ' theme-light' : ''}` },
       h('header', { className: 'top' },
-        h('span', { className: 'brand' }, 'AksiWarga'),
+        h('a', { className: 'brand', href: '../index.html', 'aria-label': 'AksiWarga - Beranda' },
+          h('img', { src: '../asset/logo%20web.jpg', alt: '', className: 'brand-logo' }),
+          h('span', null, 'AksiWarga')),
         h(SearchBar, { regions: GEO.regions, onSelect: openRegion }),
         h('div', { className: 'header-actions' },
           h('button', {
@@ -350,7 +354,7 @@
             'aria-label': `Ganti ke tema ${theme === 'dark' ? 'terang' : 'gelap'}`,
             title: `Ganti ke tema ${theme === 'dark' ? 'terang' : 'gelap'}`
           }, h('span', { key: theme, className: 'theme-symbol', 'aria-hidden': 'true' }, theme === 'dark' ? '☼' : '☾')),
-          h('button', { className: 'btn home-button', onClick: goHome }, 'Beranda'))),
+          h('button', { className: 'btn home-button', onClick: () => (window.location.href = '../index.html') }, 'Beranda'))),
       h('main', { className: 'stage' },
         h(MapView, { features, rows: ds.rows, selected: sel, compareCodes: selectingCompare ? compareCodes : [], onSelect: selectRegion, selectionVersion, homeRequest }),
         row && h(Panel, { key: row.code, row, prov: ds.provinces.get(row.province), onClose: () => setSel(null), onCompare: startCompare }),

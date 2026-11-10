@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const ROOT = __dirname;
 const STATIC_ROOT = path.join(ROOT, 'react');
+const MAP_ROOT = path.join(ROOT, 'map aksiwarga');
 const ACCOUNTS_FILE = path.join(ROOT, 'data', 'accounts.json');
 const PORT = Number(process.env.PORT) || 3000;
 const SESSION_COOKIE = 'aksiwarga_session';
@@ -164,11 +165,15 @@ function serveStatic(request, response, url) {
         return;
     }
 
+    const mapPrefix = '/map aksiwarga';
     const isAsset = pathname.startsWith('/asset/');
-    const basePath = isAsset ? path.join(ROOT, 'asset') : STATIC_ROOT;
+    const isMap = pathname === mapPrefix || pathname.startsWith(`${mapPrefix}/`);
+    const basePath = isAsset ? path.join(ROOT, 'asset') : isMap ? MAP_ROOT : STATIC_ROOT;
     const requestedPath = isAsset
         ? pathname.slice('/asset/'.length)
-        : pathname === '/' ? 'index.html' : pathname.replace(/^[/\\]+/, '');
+        : isMap
+            ? pathname.slice(mapPrefix.length).replace(/^[/\\]+/, '') || 'index.html'
+            : pathname === '/' ? 'index.html' : pathname.replace(/^[/\\]+/, '');
     let filePath = path.resolve(basePath, requestedPath);
     if (filePath !== basePath && !filePath.startsWith(`${basePath}${path.sep}`)) {
         response.writeHead(403);

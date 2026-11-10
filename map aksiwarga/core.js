@@ -1,3 +1,4 @@
+(() => {
 'use strict';
 
 const BANDS = Object.freeze([
@@ -106,3 +107,4 @@ function buildDataset(regions, seed = 1) {
 const AksiCore = { BANDS, CATEGORIES, AUDIT_LABELS, bandFor, buildDataset, topologyToFeatures, codeFromPcode, fmtInt, fmtPct, fmtDays, fmtRp };
 if (typeof module !== 'undefined' && module.exports) module.exports = AksiCore;
 if (typeof window !== 'undefined') window.AksiCore = AksiCore;
+})();

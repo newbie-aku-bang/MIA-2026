@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Saya - TransparansiWarga (PublicPulse 2026)</title>
+    <title>Profil Saya - AksiWarga</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Plus Jakarta Sans (isi) + Fraunces (judul) -->
@@ -43,6 +43,9 @@
             }
         }
     </script>
+    <script>
+        document.documentElement.dataset.theme = localStorage.getItem('aksiwarga-theme') || 'light';
+    </script>
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
@@ -59,6 +62,67 @@
             .animate-fade-in { animation: none; }
             * { transition: none !important; }
         }
+        html[data-theme="dark"] body,
+        html[data-theme="dark"] [class~="bg-cream-50"] {
+            background-color: #1c1915 !important;
+        }
+        html[data-theme="dark"] [class~="bg-cream-100"],
+        html[data-theme="dark"] [class~="hover:bg-cream-100/70"]:hover {
+            background-color: #302a23 !important;
+        }
+        html[data-theme="dark"] [class~="bg-cream-200"] {
+            background-color: #40372d !important;
+        }
+        html[data-theme="dark"] [class~="bg-cream-300"] {
+            background-color: #514638 !important;
+        }
+        html[data-theme="dark"] [class~="bg-white/60"] {
+            background-color: #26221d !important;
+        }
+        html[data-theme="dark"] [class~="text-ink"],
+        html[data-theme="dark"] [class~="text-cocoa-600"] {
+            color: #f5eee2 !important;
+        }
+        html[data-theme="dark"] [class~="text-ink-soft"] {
+            color: #c4b8a7 !important;
+        }
+        html[data-theme="dark"] [class~="text-ochre"] {
+            color: #e0ad61 !important;
+        }
+        html[data-theme="dark"] [class~="border-cream-200"],
+        html[data-theme="dark"] [class~="divide-cream-200"] > :not([hidden]) ~ :not([hidden]) {
+            border-color: #494034 !important;
+        }
+        html[data-theme="dark"] [class~="border-cream-300"] {
+            border-color: #514638 !important;
+        }
+        html[data-theme="dark"] input {
+            color: #f5eee2 !important;
+            color-scheme: dark;
+        }
+        html[data-theme="dark"] input::placeholder {
+            color: #a99b88 !important;
+        }
+        html[data-theme="dark"] .profile-note {
+            background: #302a23;
+            border-color: #514638;
+            color: #e8ddcc;
+        }
+        html[data-theme="dark"] #themeToggle {
+            background: #302a23;
+            border-color: #514638;
+            color: #f5eee2;
+        }
+        html[data-theme="dark"] #themeToggle:hover {
+            background: #40372d;
+        }
+        html[data-theme="dark"] .profile-header-cta {
+            background: #8d5b22;
+            color: #fffaf1;
+        }
+        html[data-theme="dark"] .profile-header-cta:hover {
+            background: #a56d2d;
+        }
     </style>
 </head>
 <body class="bg-cream-50 text-ink font-sans antialiased min-h-screen flex flex-col selection:bg-honey/40 selection:text-ink">
@@ -66,13 +130,24 @@
     <!-- TOP NAVBAR -->
     <header class="bg-cream-50 border-b border-cream-200 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="index.html" class="block leading-tight">
-                <span class="font-serif font-semibold text-lg text-ink block">TransparansiWarga</span>
-                <span class="text-ink-soft text-xs block">PublicPulse 2026</span>
+            <a href="index.html" class="flex shrink-0 items-center gap-3 leading-tight">
+                <div class="flex h-8 w-8 items-center justify-center">
+                    <img src="../asset/logo web.jpg" alt="Logo AksiWarga" class="h-8 w-8 rounded">
+                </div>
+                <div>
+                    <span class="font-serif font-semibold text-lg text-ink block">AksiWarga</span>
+                </div>
             </a>
 
-            <div class="flex items-center gap-4">
-                <a href="lapor.html" class="hidden sm:inline-flex items-center bg-cocoa-700 hover:bg-cocoa-800 text-cream-50 px-4 py-2 rounded-xl font-semibold text-sm transition">
+            <div class="flex items-center gap-2 sm:gap-4">
+                <button type="button" id="themeToggle" aria-label="Aktifkan mode gelap" aria-pressed="false" onclick="toggleTheme()" class="inline-flex items-center gap-2 border border-cream-200 bg-white/60 hover:bg-cream-100 text-ink px-3 py-2 rounded-xl font-semibold text-sm transition">
+                    <svg id="themeToggleIcon" aria-hidden="true" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>
+                    </svg>
+                    <span id="themeToggleLabel">Mode Gelap</span>
+                </button>
+
+                <a href="form_pengaduan.html" class="profile-header-cta hidden sm:inline-flex items-center bg-cocoa-700 hover:bg-cocoa-800 text-cream-50 px-4 py-2 rounded-xl font-semibold text-sm transition">
                     Buat Pengaduan
                 </a>
 
@@ -102,18 +177,20 @@
             </div>
 
             <!-- Info Identitas -->
-            <div class="text-center sm:text-left space-y-2 flex-1 sm:pt-2">
-                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
-                    <h1 class="font-serif font-semibold text-3xl text-ink tracking-tight">Ahmad Warga</h1>
-                    <!-- Badge Verifikasi -->
-                    <span class="inline-flex items-center bg-[#e3eedc] text-[#3f6b2e] text-xs font-semibold px-3 py-1 rounded-full">
-                        Warga Terverifikasi
-                    </span>
+            <div class="w-full flex-1 sm:pt-2 flex flex-col lg:flex-row lg:items-start lg:gap-8">
+                <div class="text-center sm:text-left space-y-2 flex-1">
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                        <h1 class="font-serif font-semibold text-3xl text-ink tracking-tight">Ahmad Warga</h1>
+                    </div>
+
+                    <p class="text-ink text-sm sm:text-base">ahmad@warga.id</p>
+
+                    <p class="text-ink-soft text-sm">Anggota sejak 12 Januari 2026</p>
                 </div>
 
-                <p class="text-ink text-sm sm:text-base">ahmad@warga.id</p>
-
-                <p class="text-ink-soft text-sm">Anggota sejak 12 Januari 2026</p>
+                <aside class="profile-note mt-5 lg:mt-0 rounded-2xl border border-cream-200 bg-cream-100/70 px-4 py-3 text-left text-sm leading-relaxed text-ink-soft lg:max-w-sm">
+                    <span class="font-semibold text-ink">Note:</span> Kami akan memberi notifikasi kepada anda jika Laporan anda telah selesai. Anda juga bisa memberi Reaksi terhadap kinerja Dinas pada notifikasi yang kami berikan.
+                </aside>
             </div>
         </div>
 
@@ -217,7 +294,7 @@
                             <h2 class="font-serif font-semibold text-2xl text-ink tracking-tight">Riwayat Pengaduan</h2>
                             <p class="text-ink-soft text-sm mt-1">Daftar aduan publik yang telah Anda kirimkan.</p>
                         </div>
-                        <a href="lapor.html" class="text-sm font-semibold text-ochre hover:text-cocoa-800 underline underline-offset-4 decoration-ochre/40 whitespace-nowrap transition">
+                        <a href="form_pengaduan.html" class="text-sm font-semibold text-ochre hover:text-cocoa-800 underline underline-offset-4 decoration-ochre/40 whitespace-nowrap transition">
                             Buat Baru
                         </a>
                     </div>
@@ -295,6 +372,26 @@
     <script>
         const TAB_ACTIVE = "tab-btn active px-1 pb-3 -mb-px text-sm sm:text-base font-semibold text-ink border-b-2 border-ochre transition";
         const TAB_INACTIVE = "tab-btn px-1 pb-3 -mb-px text-sm sm:text-base font-medium text-ink-soft hover:text-ink border-b-2 border-transparent transition";
+
+        function updateThemeToggle() {
+            const isDark = document.documentElement.dataset.theme === 'dark';
+            const button = document.getElementById('themeToggle');
+            button.setAttribute('aria-pressed', String(isDark));
+            button.setAttribute('aria-label', isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+            document.getElementById('themeToggleLabel').textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
+            document.getElementById('themeToggleIcon').innerHTML = isDark
+                ? '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>'
+                : '<path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>';
+        }
+
+        function toggleTheme() {
+            const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.dataset.theme = theme;
+            localStorage.setItem('aksiwarga-theme', theme);
+            updateThemeToggle();
+        }
+
+        updateThemeToggle();
 
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
